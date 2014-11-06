@@ -1,0 +1,111 @@
+\documentclass{article} % For LaTeX2e
+\usepackage{nips13submit_e,times}
+%\usepackage{hyperref}
+\usepackage[hyphens]{url}
+\usepackage{bbm}
+\usepackage{amsfonts}
+\usepackage{alltt}
+\usepackage{multirow, caption}
+\usepackage{algorithm}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[noend]{algpseudocode}
+\usepackage{etoolbox}
+\usepackage{hyperref}
+\usepackage{fancyvrb}
+\usepackage{tgcursor}
+\newcommand\userinput[1]{\textbf{#1}}
+\newcommand\comment[1]{\textit{#1}}
+\newcommand\stdout[1]{\textsl{#1}}
+
+\makeatletter
+\preto{\@verbatim}{\topsep=0pt \partopsep=0pt }
+\makeatother
+
+\title{Operations Research II\\Final Report}
+
+\author{
+Keenan Gao \\
+\And
+Binghui Ouyang \\
+\And
+Emmie Zhang \\
+\And
+Yiming Zong\\ \\
+\and Department of Mathematical Sciences \\ Carnegie Mellon University \\ Pittsburgh, PA 15213
+}
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\nipsfinalcopy % Uncomment for camera-ready version
+
+\begin{document}
+
+% Title
+\maketitle
+
+% Paper Abstract
+\begin{abstract}
+    Space reserved for abstract.
+\end{abstract}
+
+% Main Body Starts
+
+\section{Problems Overview}
+    \texttt{TODO: Overview of the problem in words.}
+
+
+\section{Mathematical Model}
+\subsection{General Input}
+\begin{itemize}
+    \item $n$: Number of students ($n > 0$);
+    \item $m$: Number of seminars ($m > 0$);
+    \item $k$: Max number of selections that a student can make ($1 \leq k \leq m$);
+    \item $s_{i,j}$: The $j^{\text{th}}$ selection of $i^{\text{th}}$ student, where $1\leq i \leq n$ and $1\leq j \leq k$. $s_{i,j}=0$ when the Student $i$ makes no corresponding choice for Rank $j$;
+    \item $q_k$: The quota for $k^{\text{th}}$ seminar, where $1\leq k \leq m$.
+\end{itemize}
+
+\subsection{Input Constraints}
+\begin{itemize}
+    \item Positivity: $n,m,k>0$, $\forall k\in\{1,\cdots,m\}, q_k>0$;
+    \item Number of selections for student is bounded by number of available seminars: $k \leq m$;
+    \item \textbf{(?)} Student rankings are valid and unique: $\forall (i,j), 1\leq s_{i,j} \leq m$. And, for each $i$, all non-zero entries $s_{i,j}$'s take unique values.
+\end{itemize}
+
+\subsection{Decision Variables}
+\begin{itemize}
+    \item $Y_{i,j}$: Indicator variables for whether Student $i$ is assigned to Seminar $j$, where $1\leq i \leq n$ and $1\leq j \leq k$;
+\end{itemize}
+
+\subsection{Data Pre-Processing}
+    \par\qquad In order to deal with cases when a student is only willing or allowed to rank $k'<m$ seminars, we automatically set all ``unassigned'' priorities to $(k+1)$. Also, we change the representation of students' preference from \emph{(student, ranking) $\mapsto$ seminar} to \emph{(student, seminar) $\mapsto$ ranking} to make further calculations easier, i.e.
+        $$X_{i,j}=\begin{cases}
+                    l &\text{If Student $i$ ranked $j$ as $l^{\text{th}}$ option, or $s_{i,l}=j$ for some $l\in\{1,\cdots,k\}$}\\
+                    k+1     &\text{If Seminar $k$ is not on Student $i$'s list, or $s_{i,l} \neq j$ for all $l\in\{1,\cdots,k\}$}
+                  \end{cases}.$$
+
+\subsection{General Constraints}
+    \begin{itemize}
+    \item $Y_{i,j}$'s are indeed indicator variables: $\forall (i,j), Y_{i,j}\in\mathbb{Z}, Y_{i,j}\geq 0, Y_{i,j}\leq 1$;
+    \item Each student is assigned precisely one seminar: $\forall i$, $\sum_{l=1}^{m}{Y_{i,l}}=1$;
+    \item Each seminar is within enrollment quota: $\forall j$, $\sum_{l=1}^{n}{Y_{l,j}} \leq q_j$;
+\end{itemize}
+\section{Approach for Various Heuristic Functions}
+    \par\qquad Due to the flexibility of the original problem, we are proposing different objective functions for optimization, including minimizing the total ``rank'' given by the students, maximizing the number of student getting their top $\lambda k$ choice (where $\lambda\in(0,1)$), etc. In the following sub-sections we present our approach for each heuristic in mathematical terms.
+
+\subsection{Minimize Total Rank of Students}
+    \par\qquad In this case, our goal is to minimize the sum of all student rankings for their assigned seminars. To do so, our objective is to minimize $W = \sum_{i=1}^{n}{\sum_{j=1}^{m}{X_{i,j}Y_{i,j}}}.$
+\subsection{Maximize Number of Students Getting Top-Tier Seminars}
+    \par\qquad In this case, we would additionally require the user to input a value $\lambda\in(0,1)$, representing the range of rankings we consider as ``top-tier'', i.e. $\{1,\cdots,\lfloor \lambda k\rfloor\}$. Given this heuristic, our objective is to maximize $W = \sum_{i=1}^{n}{\sum_{j=1}^{m}{\mathbbm{1}_{X_{i,j} \leq \lfloor \lambda k\rfloor}Y_{i,j}}}.$
+
+\subsection{And Potentially More}
+
+\section{Summary of Results}
+
+\section{Further Work \& Enhancements}
+
+\section{References}
+\urlstyle{rm}
+
+\end{document}
