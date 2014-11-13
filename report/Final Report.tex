@@ -22,6 +22,10 @@
 \preto{\@verbatim}{\topsep=0pt \partopsep=0pt }
 \makeatother
 
+% Tweak algorithmic package.
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
 \title{Operations Research II\\Final Report}
 
 \author{
@@ -50,8 +54,9 @@ Yiming Zong\\ \\
     Space reserved for abstract.
 \end{abstract}
 
+%
 % Main Body Starts
-
+%
 \section{Problems Overview}
     \texttt{TODO: Overview of the problem in words.}
 
@@ -91,6 +96,10 @@ Yiming Zong\\ \\
     \item Each student is assigned precisely one seminar: $\forall i$, $\sum_{l=1}^{m}{Y_{i,l}}=1$;
     \item Each seminar is within enrollment quota: $\forall j$, $\sum_{l=1}^{n}{Y_{l,j}} \leq q_j$;
 \end{itemize}
+
+%
+% Heuristic Selection
+%
 \section{Approach for Various Heuristic Functions}
     \par\qquad Due to the flexibility of the original problem, we are proposing different objective functions for optimization, including minimizing the total ``rank'' given by the students, maximizing the number of student getting their top $\lambda k$ choice (where $\lambda\in(0,1)$), etc. In the following sub-sections we present our approach for each heuristic in mathematical terms.
 
@@ -101,11 +110,75 @@ Yiming Zong\\ \\
 
 \subsection{And Potentially More}
 
+%
+% Optimization Algorithm
+%
+\section{Optimization Algorithm}
+    \par\qquad Given the constraints, our goal is solve a \emph{Genrealized Assignment Problem}. According to Martello and Toth\cite{mt90}, it is \emph{NP-hard}, so an approximation algorithm must be applied in order to solve the problem in a reasonable amount of time. Analogous to the \emph{Knapsack Problem}, our fundamental approach is the greedy algorithm (with variations), and then make finishing touch based on the principle of \emph{Stable Marriage Problem}. Following sub-sections will present the alrogithm in details:
+
+\subsection{Ranking-Based Greedy Algorithm}
+    \par For the greedy algorithm, we first satisfy (a portion of) all students' first choices, then second choices, and so on. Depending on the ``popularity'' of each seminar, we may limit the number of students allowed to be added to a seminar at each ranking. The algorithm (as \emph{Algorithm 1} on next page) is outlined as follows, and it can be run multiple times in order to select an assignment with least amount of students that are not assigned to their ranked list.
+    \begin{algorithm}
+        \caption{Ranking-Based Greedy Algorithm}
+        \begin{algorithmic}
+            \Ensure{$\text{asgn}_i \gets \text{seminar assignment for Student $i$ based on greedy algorithm}$}
+            \For{r = 1 to k}    
+                \For{i = 1 to m}
+                    \State pool[i] $\gets \{\text{unassigned student s} \mid \text{s listed seminar $i$ as $r^\text{th}$ choice}\}$
+                    \State pool[i] $\gets \text{random subset of itself with certain size limit (e.g. seminar quota)}$
+                \EndFor
+                \State Merge each pool[i] into asgn
+            \EndFor
+            \State Fill in still unassigned students
+        \end{algorithmic}
+    \end{algorithm}
+
+\subsection{Stable Assignment Optimization}
+    \par Similar to the principle of \emph{Stable Marriage Problem}, in our final seminar assignment we do not want to have two students \emph{A} and \emph{B}, such that \emph{A} prefers \emph{B}'s section, and also vice versa (we call those two students \emph{rogue pair}). This can be done by scanning each pair of students and fixing every \emph{rogue pair}. The algorithm is outlined in \emph{Algorithm 2} on the next page.
+    \begin{algorithm}
+        \caption{Rogue-Pair Fixing Algorithm}
+        \begin{algorithmic}
+        \Require $\text{asgn}_i \gets \text{current seminar assignment for Student $i$}$
+        \Ensure (i,j) if we found a rogue pair, otherwise null
+        \Function{FindRoguePair}{\text{asgn}}
+            \For {i=1 to n}
+                \For {j=i+1 to n}
+                    \If{Student $i$ and $j$ prefer each other's seminar}
+                        \Return{(i,j)}
+                    \EndIf
+                \EndFor
+            \EndFor
+            \Return{null}
+        \EndFunction
+        
+        \null
+        
+        \Require $\text{asgn}_i \gets \text{seminar assignment for Student $i$ based on greedy algorithm}$
+        \Ensure $\text{asgn}_i$: rogue pair-free assignment for Student $i$
+                \State p $\gets$ FindRoguePair(asgn)
+                \While {p {\bf not} null}
+                    \State (i,j) $\gets$ p
+                    \State $\text{asgn}_i \leftrightarrow \text{asgn}_j$
+                    \State p $\gets$ FindRoguePair(asgn)
+                \EndWhile
+        
+        \end{algorithmic}
+    \end{algorithm}
+
+%
+% Summary
+%
 \section{Summary of Results}
 
 \section{Further Work \& Enhancements}
 
 \section{References}
 \urlstyle{rm}
+\begin{thebibliography}{9}
+
+\bibitem{mt90}
+Martello, Silvano, and Paolo Toth. Knapsack Problems: Algorithms and Computer Implementations. Chichester: J. Wiley \& Sons, 1990. Print.
+%\url{http://www.or.deis.unibo.it/kp/Chapter7.pdf}
+\end{thebibliography}
 
 \end{document}
