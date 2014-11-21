@@ -7,7 +7,7 @@ Warning: Student has multiple entry for 3 on line 3: 16, 15, 3
 
 Warning: Student entered out-of-bound Seminar ID: 10: 4, 23, 14
 
-Number of students: 309
+Number of students: 308
 Running Hungarian algorithm on matrix of dimension (336, 336)
 Student ID, Assigned Seminar, Cost
 0, 3, 2
@@ -318,10 +318,9 @@ Student ID, Assigned Seminar, Cost
 305, 18, 2
 306, 18, 2
 307, 8, 0
-308, 3, 100000
-Total Cost: 2000164
+Total Cost: 1900164
 
-real	4m28.684s
-user	4m26.771s
-sys	0m0.116s
+real	4m37.476s
+user	4m36.008s
+sys	0m0.076s
 
