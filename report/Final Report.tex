@@ -87,8 +87,9 @@ Yiming Zong\\ \\
     \par\qquad In order to deal with cases when a student is only willing or allowed to rank $k'<m$ seminars, we automatically set all ``unassigned'' priorities to $(k+1)$. Also, we change the representation of students' preference from \emph{(student, ranking) $\mapsto$ seminar} to \emph{(student, seminar) $\mapsto$ ranking} to make further calculations easier, i.e.
         $$X_{i,j}=\begin{cases}
                     l &\text{If Student $i$ ranked $j$ as $l^{\text{th}}$ option, or $s_{i,l}=j$ for some $l\in\{1,\cdots,k\}$}\\
-                    k+1     &\text{If Seminar $k$ is not on Student $i$'s list, or $s_{i,l} \neq j$ for all $l\in\{1,\cdots,k\}$}
-                  \end{cases}.$$
+                    {\bf\it M}     &\text{If Seminar $k$ is not on Student $i$'s list, or $s_{i,l} \neq j$ for all $l\in\{1,\cdots,k\}$}
+                  \end{cases},$$
+    where ${\bf\it M}$ is an arbitrarily large value in order to discourage the algorithm from assigning a student to a seminar that s/he did not list.
 
 \subsection{General Constraints}
     \begin{itemize}
@@ -108,13 +109,11 @@ Yiming Zong\\ \\
 \subsection{Maximize Number of Students Getting Top-Tier Seminars}
     \par\qquad In this case, we would additionally require the user to input a value $\lambda\in(0,1)$, representing the range of rankings we consider as ``top-tier'', i.e. $\{1,\cdots,\lfloor \lambda k\rfloor\}$. Given this heuristic, our objective is to maximize $W = \sum_{i=1}^{n}{\sum_{j=1}^{m}{\mathbbm{1}_{X_{i,j} \leq \lfloor \lambda k\rfloor}Y_{i,j}}}.$
 
-\subsection{And Potentially More}
-
 %
 % Optimization Algorithm
 %
-\section{Optimization Algorithm}
-    \par\qquad Given the constraints, our goal is solve a \emph{Genrealized Assignment Problem}. According to Martello and Toth\cite{mt90}, it is \emph{NP-hard}, so an approximation algorithm must be applied in order to solve the problem in a reasonable amount of time. Analogous to the \emph{Knapsack Problem}, our fundamental approach is the greedy algorithm (with variations), and then make finishing touch based on the principle of \emph{Stable Marriage Problem}. Following sub-sections will present the alrogithm in details:
+\section{Approximation Algorithms}
+    \par\qquad Given the constraints, our problem can be classified as a \emph{Genrealized Assignment Problem}. According to Martello and Toth\cite{mt90}, it is \emph{NP-hard}, so an approximation algorithm must be applied in order to solve the problem in a reasonable amount of time. Analogous to the \emph{Knapsack Problem}, our fundamental approach is the greedy algorithm (with variations), and then make finishing touch based on the principle of \emph{Stable Marriage Problem}. Following sub-sections will present the alrogithm in details:
 
 \subsection{Ranking-Based Greedy Algorithm}
     \par For the greedy algorithm, we first satisfy (a portion of) all students' first choices, then second choices, and so on. Depending on the ``popularity'' of each seminar, we may limit the number of students allowed to be added to a seminar at each ranking. The algorithm (as \emph{Algorithm 1} on next page) is outlined as follows, and it can be run multiple times in order to select an assignment with least amount of students that are not assigned to their ranked list.
@@ -165,16 +164,34 @@ Yiming Zong\\ \\
         \end{algorithmic}
     \end{algorithm}
 
+\section{Exact Algorithm}
+    \par\qquad The problem can also be reduced to an \emph{Assignment Problem} when we include ``dummy seminars'' and ``dummy students''. When we apply \emph{Hungarian Algorithm}, we can obtain an absolute optimal solution that minimizes the total rank of students. Details about the algorithm are as follows:
+    
+\subsection{Data Pre-Processing}
+    \par\qquad We start with the matrix $X_{i,j}$ as obtained in \emph{Section 2.4}. For each column that represents Seminar $j$, we create extra $(j-1)$ dummy seminars by duplicating the same column $q_j$ times. After that, we make our cost matrix square by adding zero rows at the bottom of the cost matrix. This gives us a matrix that we may feed into \emph{Hungarian Algorithm}.
+
+\subsection{Hungarian Algorithm}
+    \par\qquad Given the square cost matrix from previous section, we may simply apply \emph{Hungarian Algorithm}, which returns a \emph{student-seminar} assignment with minimal total cost. The algorithm completes in polynomial time \texttt{[reference]}, and given the result we may simply assign each student to the actual seminar that the assignment corresponds to.
 %
 % Summary
 %
 \section{Summary of Results}
+    \par The algorithms are tested on the real data for the incoming class of Dietrich College for Year 2013 ($n=309$). We have found that the approximation algorithm (...), while the \emph{Hungarian Algorithm} gives really satisfactory assignment within five minutes. Despite the satisfactory performance of the exact algorithm, its run-time complexity $\mathcal{O}(n^3)$ makes the algorithm undesirable for $n>1000$. Following is a comparison between the performance of manual assignment, approximation algorithm, and exact algorithm:
 
 \section{Further Work \& Enhancements}
 
-\urlstyle{rm}
-\begin{thebibliography}{9}
+\subsection{Supporting bi-directional preference/cost parameters with Stable Marriage Algorithm}
 
+\subsection{And more...}
+
+\section{Acknowledgements}
+Professor Frieze (weekly meeting, progress tracking)\\
+Academic Advisor \& Associate Dean from Dietrich (meeting about requirements, real data for Year 2013; names?)\\
+Brian Clapper (Python implementation of Hungarian)\\
+More?
+\urlstyle{rm}
+\vskip .2in
+\begin{thebibliography}{9}
 \bibitem{mt90}
 Martello, Silvano, and Paolo Toth. Knapsack Problems: Algorithms and Computer Implementations. Chichester: J. Wiley \& Sons, 1990. Print.
 %\url{http://www.or.deis.unibo.it/kp/Chapter7.pdf}
