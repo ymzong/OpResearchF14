@@ -26,7 +26,7 @@
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
 
-\title{Operations Research II\\Final Report}
+\title{Freshman Seminar Assignment Problem\\Final Report}
 
 \author{
 Keenan Gao \\
@@ -106,14 +106,14 @@ Yiming Zong\\ \\
 
 \subsection{Minimize Total Rank of Students}
     \par\qquad In this case, our goal is to minimize the sum of all student rankings for their assigned seminars. To do so, our objective is to minimize $W = \sum_{i=1}^{n}{\sum_{j=1}^{m}{X_{i,j}Y_{i,j}}}.$
-\subsection{Maximize Number of Students Getting Top-Tier Seminars}
-    \par\qquad In this case, we would additionally require the user to input a value $\lambda\in(0,1)$, representing the range of rankings we consider as ``top-tier'', i.e. $\{1,\cdots,\lfloor \lambda k\rfloor\}$. Given this heuristic, our objective is to maximize $W = \sum_{i=1}^{n}{\sum_{j=1}^{m}{\mathbbm{1}_{X_{i,j} \leq \lfloor \lambda k\rfloor}Y_{i,j}}}.$
-
+\subsection{Minimize Variance of Students Preference in Each Seminar}
+    \par\qquad In addition to minimizing total rank of student, it would also be helpful if we could ``balance out'' students' preference of their assignd seminar for each seminar. For example, we do not want to have an assignment where some seminar has all students listing it as their first choice, yet some other seminar has none of the students listing it in their choices at all. With this idea in mind, for each seminar we wish to enforce a hard limit on the number of students enrolled that put it as first tier, second tier, etc.
+    \par\qquad Meanwhile, the hard limit can also affect the optimal solution that minimizes total rank of students in the final assignment. Therefore, care needs to be taken while picking the hard limits.
 %
 % Optimization Algorithm
 %
 \section{Approximation Algorithms}
-    \par\qquad Given the constraints, our problem can be classified as a \emph{Genrealized Assignment Problem}. According to Martello and Toth\cite{mt90}, it is \emph{NP-hard}, so an approximation algorithm must be applied in order to solve the problem in a reasonable amount of time. Analogous to the \emph{Knapsack Problem}, our fundamental approach is the greedy algorithm (with variations), and then make finishing touch based on the principle of \emph{Stable Marriage Problem}. Following sub-sections will present the alrogithm in details:
+    \par\qquad Given the constraints, our problem can be classified as a \emph{Genrealized Assignment Problem}. According to Martello and Toth\cite{mt90}, it is \emph{NP-hard}, so an approximation algorithm musNumber of Students Getting Top-Tier Seminarst be applied in order to solve the problem in a reasonable amount of time. Analogous to the \emph{Knapsack Problem}, our fundamental approach is the greedy algorithm (with variations), and then make finishing touch based on the principle of \emph{Stable Marriage Problem}. Following sub-sections will present the alrogithm in details:
 
 \subsection{Ranking-Based Greedy Algorithm}
     \par For the greedy algorithm, we first satisfy (a portion of) all students' first choices, then second choices, and so on. Depending on the ``popularity'' of each seminar, we may limit the number of students allowed to be added to a seminar at each ranking. The algorithm (as \emph{Algorithm 1} on next page) is outlined as follows, and it can be run multiple times in order to select an assignment with least amount of students that are not assigned to their ranked list.
