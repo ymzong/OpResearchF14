@@ -51,17 +51,19 @@ Yiming Zong\\ \\
 
 % Paper Abstract
 \begin{abstract}
-    Space reserved for abstract.
+    \par\qquad This is the final report for Freshman Seminar Assignment Problem, our team's final project for Operations Research II, Fall 2014. We will first briefly describe the real-world problem and create a basic mathematical model based on the data. Then, we will feed the pre-processed data into several different algorithms with various objective functions and run-time constraints, and compare their final results. Eventually, we will discuss some generalizations of our current problem and propose potential algorithms for solving them.
 \end{abstract}
 
 %
 % Main Body Starts
 %
-\section{Problems Overview}
+\section{Problem Overview}
     \texttt{TODO: Overview of the problem in words.}
 
 
 \section{Mathematical Model}
+\par\qquad Based on the problem description in \emph{Section 1}, we can build a mathematical model for it in order to describe an alrogithm for solving the problem with any valid input data.
+
 \subsection{General Input}
 \begin{itemize}
     \item $n$: Number of students ($n > 0$);
@@ -165,7 +167,7 @@ Yiming Zong\\ \\
     \end{algorithm}
 
 \section{Exact Algorithm}
-    \par\qquad The problem can also be reduced to an \emph{Assignment Problem} when we include ``dummy seminars'' and ``dummy students''. When we apply \emph{Hungarian Algorithm}, we can obtain an absolute optimal solution that minimizes the total rank of students. Details about the algorithm are as follows:
+    \par\qquad The problem can also be reduced to an \emph{Assignment Problem} when we include ``dummy seminars'' and ``dummy students''. When we apply \emph{Hungarian Algorithm}, we can obtain an absolute optimal solution that minimizes the total ``cost'' of students. Details about the algorithm are as follows:
     
 \subsection{Data Pre-Processing}
     \par\qquad We start with the matrix $X_{i,j}$ as obtained in \emph{Section 2.4}. For each column that represents Seminar $j$, we create extra $(j-1)$ dummy seminars by duplicating the same column $q_j$ times. After that, we make our cost matrix square by adding zero rows at the bottom of the cost matrix. This gives us a matrix that we may feed into \emph{Hungarian Algorithm}.
@@ -176,7 +178,11 @@ Yiming Zong\\ \\
 % Summary
 %
 \section{Summary of Results}
-    \par The algorithms are tested on the real data for the incoming class of Dietrich College for Year 2013 ($n=309$). We have found that the approximation algorithm (...), while the \emph{Hungarian Algorithm} gives really satisfactory assignment within five minutes. Despite the satisfactory performance of the exact algorithm, its run-time complexity $\mathcal{O}(n^3)$ makes the algorithm undesirable for $n>1000$. Following is a comparison between the performance of manual assignment, approximation algorithm, and exact algorithm:
+    \par\qquad The algorithms are tested on the real data for the incoming class of Dietrich College for Year 2013 ($n=309$). We have found that the approximation algorithm (...), while the \emph{Hungarian Algorithm} gives really satisfactory assignment within five minutes. Despite the satisfactory performance of the exact algorithm, its run-time complexity $\mathcal{O}(n^3)$ makes the algorithm undesirable for $n>1000$. Following is a comparison between the performance of manual assignment, approximation algorithm, and exact algorithm:
+
+\subsection{Approximation Algorithms}
+\subsection{Naive Exact Algorithm}
+\subsection{Smoothed Exact Algorithm}
 
 \section{Further Work \& Enhancements}
 
@@ -185,10 +191,8 @@ Yiming Zong\\ \\
 \subsection{And more...}
 
 \section{Acknowledgements}
-Professor Frieze (weekly meeting, progress tracking)\\
-Academic Advisor \& Associate Dean from Dietrich (meeting about requirements, real data for Year 2013; names?)\\
-Brian Clapper (Python implementation of Hungarian)\\
-More?
+\par\qquad The authors would like to thank Professor Alan Frieze for proposing the Hungarian algorithm in \emph{Section 5} and for holding weekly meetings to track our progress. Also, we thank Professor Brian W. Junker, Professor Joseph E. Devine, and Gloria P. Hill for providing us with the real seminar assignment data for Year 2013. And, the thank goes to Brian Clapper for his Python implementation of Hungarian algorithm, which made our final results and analyis possible.
+
 \urlstyle{rm}
 \vskip .2in
 \begin{thebibliography}{9}
