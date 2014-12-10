@@ -1,4 +1,4 @@
-import numpy, sys
+import math, numpy, sys
 import re
 import copy
 import random
@@ -17,6 +17,7 @@ def parseLine(line):
             sanitizedSelection = re.sub("\D", "", selection)
             if re.sub("\D", "", sanitizedSelection) != "":
                 splitTierResult[tier].append(int(sanitizedSelection))
+    
     result = dict()
     for i in xrange(len(splitTierResult)):
         for s in splitTierResult[i]:
@@ -31,12 +32,48 @@ def parseLine(line):
 
 # Main function for running randomized assignment.
 def randomAsgn(quotaRatio):
-    roster = [[]] * (m+1)
-    return (0, [3, 5])
+    roster = [list() for i in xrange(m+1)]
+    currCost = 0
+    currAsgn = dict()
+    availStudents = set(range(n))
+    # Stage One: Assign first choices, up to set quota.
+    for s in xrange(1, m+1):
+        tmp = randomSub(set(R[s][0]) & availStudents,
+                int(math.floor(float(q[s-1]) * quotaRatio)))
+        roster[s] += tmp
+        currCost += getCost(0) * len(tmp)
+        for student in tmp:
+            currAsgn[student] = s
+        availStudents = availStudents.difference(set(tmp))
+    # Stage Two: Assign second choices, as many as possible.
+    for s in randomly(xrange(1, m+1)):
+        tmp = randomSub(set(R[s][1]) & availStudents, q[s-1] - len(roster[s]))
+        roster[s] += tmp
+        currCost += getCost(1) * len(tmp)
+        for student in tmp:
+            currAsgn[student] = s
+        availStudents = availStudents.difference(set(tmp))
+    # Stage Three: Enroll remanining students in Round-robin fashion.
+    s = 1
+    while len(availStudents) > 0:
+        if len(roster[s]) < q[s-1]:
+            student = availStudents.pop()
+            roster[s].append(student)
+            currCost += MCOST
+            currAsgn[student] = s
+        s = 1 if s == m else s+1    
+    return (currCost, currAsgn, roster)
 
-# Getting random sublist of a list with length l
-def randomSub(L):
-    return random.sample(L, max(len(L), l))
+# Getting random sublist of a set with length l
+def randomSub(L, l):
+    return random.sample(list(L), min(len(list(L)), l))
+
+# Gives random iterator of a list
+def randomly(seq):
+    shuffled = list(seq)
+    random.shuffle(shuffled)
+    return iter(shuffled)
+
 
 #
 # !-- Entry point --!
@@ -75,7 +112,7 @@ if sum(q) < n:
 # Transfer input to (student,seminar) -> ranking mapping.
 # Initialize (seminar, ranking) -> student mapping.
 B = []
-R = []
+R = [([], [])]
 MCOST = 100000
 for i in xrange(n):
     B.append([A[i][j] if j in A[i] else MCOST for j in xrange(1, m+1)])
@@ -92,15 +129,24 @@ for i in xrange(1, m+1):
 # Mainloop for iterations
 bestCost = sys.maxint
 bestAsgn = list()
+roster = list()
+bestRatio = 0.0
 for i in xrange(iters):
     for j in xrange(1, max(q)+1):
-        (currCost, currAsgn) = randomAsgn(j * 1.0 / max(q))
+        (currCost, currAsgn, currRoster) = randomAsgn(j * 1.0 / max(q))
         if currCost < bestCost:
+            print "Current optimal cost: %d... [Run %d out of %d]" % (currCost, i+1, iters)
             bestCost = currCost
             bestAsgn = copy.deepcopy(currAsgn)
-print "Best Cost: %d" % currCost
+            bestRoster = copy.deepcopy(currRoster)
+            bestRatio = j * 1.0 / max(q)
+
+print "Best Cost: %d  (with first-choice quota %f)" % (bestCost, bestRatio)
 print "Assignment as follows:"
-for i in xrange(len(bestAsgn)):
+for i in xrange(n):
     print "%d -> %d" % (i, bestAsgn[i])
 print "--------------------------------"
+print "Seminar roster:"
+for i in xrange(1, m+1):
+    print "Seminar %d:" % i, bestRoster[i]
 
