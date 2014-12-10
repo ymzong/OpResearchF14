@@ -1,6 +1,7 @@
 import numpy, sys
 import re
 import copy
+import random
 
 def getCost(tier):
     return 2 * tier * tier
@@ -30,11 +31,12 @@ def parseLine(line):
 
 # Main function for running randomized assignment.
 def randomAsgn(quotaRatio):
-    return (0, [])
+    roster = [[]] * (m+1)
+    return (0, [3, 5])
 
-# Getting random sublist of a list
+# Getting random sublist of a list with length l
 def randomSub(L):
-    return []
+    return random.sample(L, max(len(L), l))
 
 #
 # !-- Entry point --!
@@ -99,6 +101,6 @@ for i in xrange(iters):
 print "Best Cost: %d" % currCost
 print "Assignment as follows:"
 for i in xrange(len(bestAsgn)):
-    print "%d -> %d" % (i, bestAsgn)
+    print "%d -> %d" % (i, bestAsgn[i])
 print "--------------------------------"
 
