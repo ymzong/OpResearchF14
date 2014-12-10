@@ -1,5 +1,6 @@
 import numpy, sys
 import re
+import copy
 
 def getCost(tier):
     return 2 * tier * tier
@@ -26,6 +27,14 @@ def parseLine(line):
                 result[s] = getCost(i)
 
     return result
+
+# Main function for running randomized assignment.
+def randomAsgn(quotaRatio):
+    return (0, [])
+
+# Getting random sublist of a list
+def randomSub(L):
+    return []
 
 #
 # !-- Entry point --!
@@ -61,10 +70,35 @@ if sum(q) < n:
     print "Quota cannot fit all students!"
     sys.exit(1)
 
-# Transfer array to Student-Seminar.
+# Transfer input to (student,seminar) -> ranking mapping.
+# Initialize (seminar, ranking) -> student mapping.
 B = []
+R = []
 MCOST = 100000
 for i in xrange(n):
     B.append([A[i][j] if j in A[i] else MCOST for j in xrange(1, m+1)])
-print B
+for i in xrange(1, m+1):
+    rankedFirst = list()
+    rankedSecond = list()
+    for s in xrange(n):
+        if i in A[s] and A[s][i] == getCost(0):
+            rankedFirst.append(s)
+        elif i in A[s] and A[s][i] == getCost(1):
+            rankedSecond.append(s)
+    R.append((rankedFirst, rankedSecond))
+
+# Mainloop for iterations
+bestCost = sys.maxint
+bestAsgn = list()
+for i in xrange(iters):
+    for j in xrange(1, max(q)+1):
+        (currCost, currAsgn) = randomAsgn(j * 1.0 / max(q))
+        if currCost < bestCost:
+            bestCost = currCost
+            bestAsgn = copy.deepcopy(currAsgn)
+print "Best Cost: %d" % currCost
+print "Assignment as follows:"
+for i in xrange(len(bestAsgn)):
+    print "%d -> %d" % (i, bestAsgn)
+print "--------------------------------"
 
