@@ -51,15 +51,17 @@ Yiming Zong\\ \\
 
 % Paper Abstract
 \begin{abstract}
-    \par\qquad This is the final report for Freshman Seminar Assignment Problem, our team's final project for Operations Research II, Fall 2014. We will first briefly describe the real-world problem and create a basic mathematical model based on the data. Then, we will feed the pre-processed data into several different algorithms with various objective functions and run-time constraints, and compare their final results. Eventually, we will discuss some generalizations of our current problem and propose potential algorithms for solving them.
+    \par\qquad As the number of college students increases, an optimization algorithm that can automatically assign students to classes is becoming a pressing need in many universities. In attempts of solving the algorithm, various questions arised. What is the objective function to optimize? What are the aspects that need to be considered? In this final report, we will deliver solutions to the Freshman Seminar Assignment Problem, our team's final project for Operations Research II, Fall 2014. We will first briefly describe the real-world problem and create a basic mathematical model based on the data. Then, we will feed the pre-processed data into several different algorithms with various objective functions and run-time constraints, and compare their final results. Eventually, we will discuss some generalizations of our current problem and propose potential algorithms for solving them. Our algorithms improve the quality of assignment significantly in terms of student preference compared to the traditional manual approach.
 \end{abstract}
+\vspace{\fill}
+\pagebreak
 
 %
 % Main Body Starts
 %
 \section{Problem Overview}
-    \texttt{TODO: Overview of the problem in words.}
-
+   \par\qquad The assignment problem we are solving in this project was initially broached by Dietrich College of Humanities and Social Sciences at Carnegie Mellon University. The main goal is to assign freshmen to mendatory seminars in a way such that all seminars are filled, and that students are assigned to the seminars that they are interests in. In the real-world dataset that we are provided, there are $308$ students and $22$ seminars. Each seminar can have at most 16 students, and each student must enroll in exactly one seminar.
+   \par\qquad To facilitate the matching process, students are asked to rank one ``first-choice'' seminar and three ``second-choice'' seminars. We associate costs with assigning a student to a seminar based on the student's preference for the seminar. To find the optimal assignment, we approched the problem in two ways -- minimizing the total cost across all seminars and smoothing out enrolled students' preference for each seminar.
 
 \section{Mathematical Model}
 \par\qquad Based on the problem description in \emph{Section 1}, we can build a mathematical model for it in order to describe an alrogithm for solving the problem with any valid input data.
