@@ -1,18 +1,8 @@
-from munkres import Munkres, print_matrix
 import numpy, sys
 import re
 
 def getCost(tier):
     return 2 * tier * tier
-
-# Given a column number for augmented matrix, find its seminar number.
-def getSeminar(index, q):
-    s = 0
-    for i in xrange(len(q)):
-        s += q[i]
-        if index < s:
-            return i + 1
-    return -1   # Shouldn't happen!
 
 # Parse an input line to (seminar, tier) pairs
 def parseLine(line):
@@ -38,7 +28,7 @@ def parseLine(line):
     return result
 
 #
-# !-- Entry point --!s
+# !-- Entry point --!
 #
 # Specify input file name. 
 inputPath = "data/Fall2014"
@@ -53,6 +43,7 @@ elif len(qq.split()) == m:
 else:
     print "Invalid quota input!"
     sys.exit(1)
+iters = int(raw_input("Enter number of iterations to run randomized assignment: "))
 
 # Load student selections from input file.
 print "Parsing input file `%s`..." % inputPath
@@ -75,28 +66,5 @@ B = []
 MCOST = 100000
 for i in xrange(n):
     B.append([A[i][j] if j in A[i] else MCOST for j in xrange(1, m+1)])
-# Duplicate columns for hungarian
-B = numpy.array(B, dtype='int32')
-Slices = list()
-for i in xrange(m):
-    Slices.append(numpy.tile(numpy.transpose([B[:,i]]), q[i]))
-C = numpy.concatenate(tuple(Slices), axis=1)
-# Add zero rows for dummy students
-for i in xrange(sum(q) - n):
-    C = numpy.vstack([C, numpy.zeros(sum(q), dtype='int32')])
-C = C.astype(int)
-
-# Apply Munkres library to calculate Hungarian.
-print "Running Hungarian algorithm on matrix of dimension", C.shape
-C = C.tolist()
-m = Munkres()
-indexes = m.compute(C)
-total = 0
-print "Student ID, Assigned Seminar, Cost"
-for row, column in indexes:
-    if row >= n: continue # Skip dummy students
-    value = C[row][column]
-    total += value
-    print '%d, %d, %d' % (row, getSeminar(column, q), value)
-print 'Total Cost: %d' % total
+print B
 
