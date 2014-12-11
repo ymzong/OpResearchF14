@@ -1,5 +1,7 @@
 \documentclass{article} % For LaTeX2e
 \usepackage{nips13submit_e,times}
+\usepackage[toc,page]{appendix}
+\usepackage{listings}
 %\usepackage{hyperref}
 \usepackage[hyphens]{url}
 \usepackage{bbm}
@@ -14,6 +16,7 @@
 \usepackage{hyperref}
 \usepackage{fancyvrb}
 \usepackage{tgcursor}
+\usepackage{longtable}
 \newcommand\userinput[1]{\textbf{#1}}
 \newcommand\comment[1]{\textit{#1}}
 \newcommand\stdout[1]{\textsl{#1}}
@@ -216,7 +219,7 @@ However, both algorithms have their own pros and cons. The Approximation Algorit
 
 \vskip .3in
 \section*{Acknowledgements}
-\par\qquad The authors would like to thank Professor Alan Frieze for proposing the Hungarian algorithm in \emph{Section 5} and for holding weekly meetings to track our progress. Also, we thank Professor Brian W. Junker, Professor Joseph E. Devine, and Gloria P. Hill for providing us with the real seminar assignment data for Year 2013. And, the thank goes to Brian Clapper for his Python implementation of Hungarian algorithm, which made our final results and analyis possible.
+\par\qquad The authors would like to thank Professor Alan Frieze for proposing the Hungarian algorithm in \emph{Section 5} and for holding weekly meetings to track our progress. Also, we thank Professor Brian W. Junker, Professor Joseph E. Devine, and Gloria P. Hill for providing us with the real seminar assignment data for Year 2013. And, the thank goes to Brian Clapper for his Python implementation of Hungarian algorithm, and to Eric Wood, who implemented the excel-to-\LaTeX\ utility.
 
 \urlstyle{rm}
 \vskip .2in
@@ -226,4 +229,616 @@ Martello, Silvano, and Paolo Toth. Knapsack Problems: Algorithms and Computer Im
 %\url{http://www.or.deis.unibo.it/kp/Chapter7.pdf}
 \end{thebibliography}
 
+\vspace{\fill}
+\pagebreak
+\section*{Appendices}
+
+\subsection*{Appendix A: Raw Data And Results for Seminar Assignment Problem}
+%\captionof{table}{Fall 2014 Dietrich College Freshman Seminar interests and Freshman Seminar assigned}
+\hoffset=-.6in
+\begin{longtable}{| l | l | l | l | l |}
+\hline
+        {\bf Student ID:} & \begin{tabular}{@{}c@{}}{\bf Student Selection:}\\ {\small Identify 1st choice and 3 2nd choices}\\(ex., 7:  11, 15, 2)\end{tabular}& \begin{tabular}{@{}c@{}}{\bf Assigned by Hand:}\\ {\footnotesize Notes: if blank none assigned}\end{tabular} & \begin{tabular}{@{}c@{}}{\bf Assigned by}\\{\bf exact algorithm:}\end{tabular} & \begin{tabular}{@{}c@{}}{\bf Assigned by}\\{\bf approx algorithm:}\end{tabular} \\ \hline
+        1 & 8: 14, 20, 3 &  & 3 & 3 \\ \hline
+        2 & 14: 20, 12, 2 &  & 14 & 14 \\ \hline
+        3 & 17: 13, 2 &  & 17 & 17 \\ \hline
+        4 & 14: 6, 19, 13 &  & 13 & 13 \\ \hline
+        5 & 12: 9, 20, 14 &  & 12 & 20 \\ \hline
+        6 & 12: 20, 6, 3 &  & 12 & 12 \\ \hline
+        7 & 14 : 2, 12, 11 &  & 14 & 14 \\ \hline
+        8 & 12: 20, 6, 7 &  & 12 & 20 \\ \hline
+        9 & 2: 10, 6, 3 &  & 3 & 3 \\ \hline
+        10 & 2: 7, 6, 4 &  & 2 & 7 \\ \hline
+        11 & 1 & 1 & 1 & 1 \\ \hline
+        12 & 1 & 1 & 1 & 1 \\ \hline
+        13 & 1 & 1 & 1 & 1 \\ \hline
+        14 & 1: 15, 6, 13 & 1 & 1 & 1 \\ \hline
+        15 & 1: 8 & 1 & 1 & 1 \\ \hline
+        16 & 1 & 1 & 1 & 1 \\ \hline
+        17 &  & 1 & 16 & 5 \\ \hline
+        18 & 15: 8, 1, 9 & 1 & 15 & 15 \\ \hline
+        19 & 1: 16, 15, 21 & 1 & 1 & 1 \\ \hline
+        20 & 1: 17, 16, 10 & 1 & 1 & 16 \\ \hline
+        21 & 1: 4, 18, 7 & 1 & 1 & 1 \\ \hline
+        22 & 20: 18, 1, 12 & 1 & 20 & 20 \\ \hline
+        23 & 1: 2, 9, 8 & 1 & 1 & 1 \\ \hline
+        24 & 1 & 1 & 1 & 1 \\ \hline
+        25 &  & 2 & 16 & 13 \\ \hline
+        26 & 18: 14,13,9 & 2 & 18 & 18 \\ \hline
+        27 & 2: 14 & 2 & 2 & 2 \\ \hline
+        28 & 14: 7, 2, 12 & 2 & 14 & 2 \\ \hline
+        29 & 14: 6, 2, 12 & 2 & 14 & 14 \\ \hline
+        30 & 2: 10, 9, 3 & 2 & 3 & 3 \\ \hline
+        31 & 2: 14, 4, 19 & 2 & 19 & 4 \\ \hline
+        32 & 14: 2, 11, 10 & 2 & 14 & 11 \\ \hline
+        33 & 7: 9, 14, 8 & 2 & 7 & 7 \\ \hline
+        34 & 14: 2, 10, 6 & 2 & 14 & 10 \\ \hline
+        35 & 2: 14, 15, 8 & 2 & 15 & 2 \\ \hline
+        36 & 2: 14, 12, 16 & 2 & 16 & 16 \\ \hline
+        37 & 8: 20, 3, 18 & 2 & 3 & 3 \\ \hline
+        38 & 9: 14, 21, 4 & 2 & 9 & 9 \\ \hline
+        39 & 2: 11, 7, 10, 14: 17, 12, 21 & 2 & 2 & 2 \\ \hline
+        40 & 8: 9, 4, 20 & 3 & 8 & 8 \\ \hline
+        41 & 2: 3, 6, 12. & 3 & 3 & 3 \\ \hline
+        42 & 2: 3, 10, 21 & 3 & 21 & 21 \\ \hline
+        43 & 14: 2, 12, 13 & 3 & 13 & 13 \\ \hline
+        44 & 18: 15, 20, 13 & 3 & 18 & 18 \\ \hline
+        45 & 21: 14, 10, 6 & 3 & 21 & 21 \\ \hline
+        46 & 9: 13, 5, 8, 12, 17, 21 & 3 & 9 & 17 \\ \hline
+        47 & 6: 12, 18, 8 & 3 & 6 & 12 \\ \hline
+        48 & 12: 13, 2, 18 & 3 & 12 & 13 \\ \hline
+        49 & 2: 3,10,14, & 3 & 3 & 3 \\ \hline
+        50 & 8: 9, 10, 18 & 3 & 8 & 10 \\ \hline
+        51 & 10: 8, 12, 14 & 3 & 10 & 12 \\ \hline
+        52 &  & 4 & 16 & 1 \\ \hline
+        53 & 4: 10, 2, 8 & 4 & 4 & 4 \\ \hline
+        54 & 6: 12, 17, 9 & 4 & 17 & 17 \\ \hline
+        55 & 1: 10, 3, 8 & 4 & 1 & 3 \\ \hline
+        56 & 20: 15, 19, 16 & 4 & 20 & 20 \\ \hline
+        57 & 10: 4, 2, 14 & 4 & 10 & 10 \\ \hline
+        58 & 10: 4, 21, 9 & 4 & 10 & 10 \\ \hline
+        59 & 6: 1, 14, 18 & 4 & 1 & 18 \\ \hline
+        60 & 6: 2, 4, 8 & 4 & 6 & 6 \\ \hline
+        61 & 4: 10, 21 & 4 & 4 & 4 \\ \hline
+        62 & 19: 18, 9, 8 & 4 & 19 & 19 \\ \hline
+        63 & 8: 4, 10 & 4 & 8 & 4 \\ \hline
+        64 & 2: 14, 7, 6 & 4 & 2 & 14 \\ \hline
+        65 &  & 6 & 16 & 3 \\ \hline
+        66 &  & 6 & 16 & 5 \\ \hline
+        67 & 6: 10, 21, 14 & 6 & 21 & 21 \\ \hline
+        68 & 6: 5, 10, 7 & 6 & 6 & 6 \\ \hline
+        69 & 6: 11, 9, 7 & 6 & 6 & 6 \\ \hline
+        70 &  & 6 & 16 & 10 \\ \hline
+        71 & 6: 8, 4, 10 & 6 & 6 & 4 \\ \hline
+        72 & 6: 8, 7 & 6 & 6 & 7 \\ \hline
+        73 & 20: 7, 6, 12 & 6 & 20 & 20 \\ \hline
+        74 & 6: 20, 8 & 6 & 6 & 8 \\ \hline
+        75 & 6: 9, 3, 7 & 6 & 3 & 7 \\ \hline
+        76 & 6: 18, 9, 5 & 6 & 6 & 5 \\ \hline
+        77 & 9: 20, 12, 6 & 6 & 9 & 9 \\ \hline
+        78 &  & 7 & 17 & 19 \\ \hline
+        79 & 14: 2, 20, 9 & 7 & 14 & 14 \\ \hline
+        80 & 8: 6, 9 & 7 & 8 & 9 \\ \hline
+        81 & 2: 12, 14, 8 & 7 & 2 & 2 \\ \hline
+        82 & 2: 11, 6, 7 & 7 & 2 & 7 \\ \hline
+        83 & 7: 2, 19, 14 & 7 & 7 & 7 \\ \hline
+        84 & 15: 7, 18, 9 & 7 & 15 & 15 \\ \hline
+        85 & 6: 7, 8, 3 & 7 & 3 & 6 \\ \hline
+        86 & 8: 6, 9, 10, 20, 15, 12, 16 & 7 & 16 & 16 \\ \hline
+        87 & 3: 6, 8, 5 & 7 & 3 & 3 \\ \hline
+        88 & 12: 14 ,21, 2 & 7 & 12 & 12 \\ \hline
+        89 & 8: 9, 6, 18 & 7 & 8 & 18 \\ \hline
+        90 & 8: 6, 18, 7 & 8 & 7 & 7 \\ \hline
+        91 & 1: 20, 6, 18 & 8 & 1 & 18 \\ \hline
+        92 & 8: 9, 6, 12 & 8 & 8 & 12 \\ \hline
+        93 & 8: 6, 20, 8 & 8 & 8 & 8 \\ \hline
+        94 & 11 & 8 & 11 & 11 \\ \hline
+        95 & 6: 8, 14, 2 & 8 & 6 & 8 \\ \hline
+        96 & 8: 2, 14, 15 & 8 & 15 & 15 \\ \hline
+        97 & 8: 7, 6, 10 & 8 & 7 & 8 \\ \hline
+        98 & 8: 10, 11, 18 & 8 & 8 & 11 \\ \hline
+        99 & 12: 9, 8, 14 & 8 & 12 & 12 \\ \hline
+        100 & 18: 8, 15, 9 & 8 & 18 & 18 \\ \hline
+        101 & 8: 10, 14, 4 & 8 & 8 & 4 \\ \hline
+        102 & 8: 11, 6, 3 & 8 & 3 & 3 \\ \hline
+        103 & 8: 7, 6, 9, 20 & 8 & 7 & 7 \\ \hline
+        104 &  & 9 & 17 & 3 \\ \hline
+        105 & 9: 18, 15, 16 & 9 & 9 & 16 \\ \hline
+        106 & 8: 9, 20, 13 & 9 & 13 & 13 \\ \hline
+        107 & 9: 6, 10, 8 & 9 & 9 & 8 \\ \hline
+        108 & 9: 6, 8, 4 & 9 & 9 & 4 \\ \hline
+        109 & 9: 8, 15, 10 & 9 & 9 & 9 \\ \hline
+        110 & 9: 7, 14, 18 & 9 & 9 & 5 \\ \hline
+        111 & 8: 18, 6, 9 & 9 & 8 & 9 \\ \hline
+        112 & 9: 12, 20, 7 & 9 & 9 & 9 \\ \hline
+        113 & 8: 9, 15, 18 & 9 & 15 & 8 \\ \hline
+        114 & 11: 9, 2, 14 & 9 & 11 & 11 \\ \hline
+        115 & 4: 9, 17, 18 & 9 & 4 & 4 \\ \hline
+        116 & 9: 18, 16, 15 & 9 & 9 & 9 \\ \hline
+        117 & 10: 4, 3, 7 & 10 & 10 & 7 \\ \hline
+        118 & 12: 14, 21, 18 & 10 & 12 & 21 \\ \hline
+        119 & 10: 15, 18, 3 & 10 & 10 & 10 \\ \hline
+        120 & 8: 10, 6 & 10 & 8 & 6 \\ \hline
+        121 & 10: 3, 1, 8 & 10 & 10 & 10 \\ \hline
+        122 & 10: 21, 3, 1 & 10 & 10 & 21 \\ \hline
+        123 & 19: 16, 9, 10 & 10 & 19 & 19 \\ \hline
+        124 & 2: 10, 14, 20 & 10 & 2 & 20 \\ \hline
+        125 & 10: 1, 21, 20 & 10 & 10 & 10 \\ \hline
+        126 & 8: 18, 14, 16 & 10 & 16 & 8 \\ \hline
+        127 & 10: 2, 11, 4 & 10 & 10 & 10 \\ \hline
+        128 & 11: 2, 14, 20 & 11 & 11 & 14 \\ \hline
+        129 & 11 & 11 & 11 & 11 \\ \hline
+        130 & 11: 14, 20, 12 & 11 & 11 & 11 \\ \hline
+        131 & 11: 10, 2, 17 & 11 & 17 & 17 \\ \hline
+        132 & 11: 2, 14, 20 & 11 & 11 & 11 \\ \hline
+        133 & 11 & 11 & 11 & 1 \\ \hline
+        134 & 11: 2, 14, 12 & 11 & 11 & 12 \\ \hline
+        135 & 11: 6, 1, 10, 19, 14, 15, 21 & 11 & 1 & 11 \\ \hline
+        136 & 11: 14, 20, 9 & 11 & 11 & 20 \\ \hline
+        137 & 2: 11, 14, 12 & 11 & 2 & 11 \\ \hline
+        138 & 11: 2, 14, 18 & 11 & 18 & 3 \\ \hline
+        139 & 11 & 11 & 11 & 11 \\ \hline
+        140 & 11: 5, 2, 4. & 11 & 11 & 5 \\ \hline
+        141 & 2: 11, 10, 7, 5, 14, 21, 18, 20 & 11 & 21 & 7 \\ \hline
+        142 & 11: 12, 14, 8 & 11 & 11 & 8 \\ \hline
+        143 & 11: 2, 7, 18 & 11 & 7 & 11 \\ \hline
+        144 & 20: 16, 6, 8 & 12 & 20 & 20 \\ \hline
+        145 & 2: 14, 13, 12 & 12 & 13 & 13 \\ \hline
+        146 & 12: 6, 17, 10 & 12 & 17 & 17 \\ \hline
+        147 & 12: 9, 20, 6 & 12 & 12 & 12 \\ \hline
+        148 & 1: 3, 6, 10, 12, 16, 19, 21 & 12 & 1 & 16 \\ \hline
+        149 & 2: 11, 14, 15 & 12 & 15 & 15 \\ \hline
+        150 & 20: 8, 6, 13 & 12 & 20 & 20 \\ \hline
+        151 & 14: 10, 21, 4 & 12 & 21 & 14 \\ \hline
+        152 & 13: 2, 12, 20 & 12 & 13 & 13 \\ \hline
+        153 & 12: 21, 18, 14 & 12 & 12 & 21 \\ \hline
+        154 & 6: 9, 8 & 12 & 6 & 6 \\ \hline
+        155 & 12: 10, 2, 20 & 12 & 12 & 12 \\ \hline
+        156 & 20: 14, 8, 12 & 12 & 20 & 20 \\ \hline
+        157 & 11: 12, 2, 14 & 12 & 11 & 11 \\ \hline
+        158 & 12: 10, 3, 2 & 12 & 12 & 2 \\ \hline
+        159 & 11: 2, 14, 13 & 12 & 13 & 11 \\ \hline
+        160 & 9: 8, 6, 11 & 13 & 9 & 9 \\ \hline
+        161 & 14: 12, 16, 21 & 13 & 16 & 16 \\ \hline
+        162 & 10: 11, 3, 20, 4 & 13 & 10 & 10 \\ \hline
+        163 & 11: 12, 14, 2 & 13 & 11 & 14 \\ \hline
+        164 & 8: 20, 14, 9 & 13 & 8 & 20 \\ \hline
+        165 & 12: 13, 20, 2 & 13 & 13 & 13 \\ \hline
+        166 & 13: 4, 8, 17 & 13 & 13 & 13 \\ \hline
+        167 & 17: 12, 14, 15 & 13 & 17 & 17 \\ \hline
+        168 & 6: 10, 14, 8 & 13 & 6 & 14 \\ \hline
+        169 & 4: 18, 8, 10 & 13 & 4 & 4 \\ \hline
+        170 &  & 13 & 17 & 19 \\ \hline
+        171 & 7: 4, 2, 20, 12, 14 & 13 & 7 & 7 \\ \hline
+        172 & 14: 20, 18, 12 & 13 & 14 & 12 \\ \hline
+        173 & 2: 6, 7, 9 & 13 & 2 & 7 \\ \hline
+        174 &  & 13 & 19 & 21 \\ \hline
+        175 &  & 14 & 19 & 22 \\ \hline
+        176 & 11: 13, 14, 20 & 14 & 13 & 13 \\ \hline
+        177 & 9: 21, 17, 14 & 14 & 9 & 17 \\ \hline
+        178 & 12: 17, 21, 19 & 14 & 19 & 12 \\ \hline
+        179 & 13: 12, 2, 9 & 14 & 13 & 13 \\ \hline
+        180 & 2: 4, 10, 14 & 14 & 2 & 4 \\ \hline
+        181 & 2: 14, 7, 8 & 14 & 2 & 7 \\ \hline
+        182 & 6: 4, 8, 15 & 14 & 6 & 15 \\ \hline
+        183 & 2: 12, 14, 4 & 14 & 2 & 4 \\ \hline
+        184 & 14: 9, 2, 19 & 14 & 19 & 14 \\ \hline
+        185 & 14: 8, 20, 2 & 14 & 14 & 2 \\ \hline
+        186 & 2: 14, 17, 18, 20 & 14 & 17 & 17 \\ \hline
+        187 & 12: 14, 8, 6 & 14 & 12 & 14 \\ \hline
+        188 & 14: 18, 6, 8 & 14 & 14 & 8 \\ \hline
+        189 & 2: 14, 15, 10 & 14 & 15 & 2 \\ \hline
+        190 & 9: 6, 12, 15 & 15 & 9 & 9 \\ \hline
+        191 & 10: 8, 6, 3 & 15 & 10 & 3 \\ \hline
+        192 & 15: 18, 9 & 15 & 15 & 15 \\ \hline
+        193 & 15: 10, 18, 21 & 15 & 15 & 15 \\ \hline
+        194 & 17: 14, 15, 21 & 15 & 17 & 17 \\ \hline
+        195 & 4: 10, 2, 8 & 15 & 4 & 4 \\ \hline
+        196 & 15: 7, 8, 2 & 15 & 15 & 15 \\ \hline
+        197 & 15: 8, 9, 6 & 15 & 15 & 15 \\ \hline
+        198 & 16: 15, 20 & 15 & 16 & 16 \\ \hline
+        199 & 12: 13, 20, 7 & 15 & 13 & 12 \\ \hline
+        200 & 21: 15, 6, 14 & 15 & 21 & 21 \\ \hline
+        201 & 3: 16, 15, 3 & 15 & 3 & 3 \\ \hline
+        202 & 18: 15, 9, 8 & 15 & 18 & 18 \\ \hline
+        203 & 15: 18, 8, 9 & 15 & 15 & 15 \\ \hline
+        204 &  & 16 & 19 & 13 \\ \hline
+        205 &  & 16 & 19 & 16 \\ \hline
+        206 & 8: 7, 14, 20 & 16 & 7 & 14 \\ \hline
+        207 & 6: 14, 17 & 16 & 17 & 17 \\ \hline
+        208 & 19: 13, 14, 16 & 16 & 19 & 19 \\ \hline
+        209 & 8: 20, 18 & 16 & 8 & 20 \\ \hline
+        210 & 8: 15, 16, 20 & 16 & 16 & 8 \\ \hline
+        211 & 8: 3, 6, 14 & 16 & 3 & 8 \\ \hline
+        212 & 10: 4, 23, 14 & 16 & 10 & 4 \\ \hline
+        213 & 2: 7, 9, 4 & 17 & 2 & 2 \\ \hline
+        214 & 17: 14, 21, 18 & 17 & 17 & 17 \\ \hline
+        215 & 9: 11, 2, 13 & 17 & 13 & 13 \\ \hline
+        216 & 18: 15, 7, 8 & 17 & 18 & 15 \\ \hline
+        217 & 16: 19, 13, 12 & 17 & 16 & 16 \\ \hline
+        218 & 6: 14, 12, 3 & 17 & 3 & 3 \\ \hline
+        219 & 18: 12, 15, 17 & 17 & 18 & 17 \\ \hline
+        220 & 9: 8, 6, 7 & 17 & 9 & 9 \\ \hline
+        221 & 17: 9, 8, 18 & 17 & 17 & 17 \\ \hline
+        222 &  & 17 & 19 & 21 \\ \hline
+        223 & 11: 18, 12, 9 & 17 & 18 & 9 \\ \hline
+        224 & 20: 8, 6, 15 & 17 & 20 & 20 \\ \hline
+        225 & 6: 9, 8, 18 & 17 & 6 & 9 \\ \hline
+        226 & 9: 6, 13, 17 & 17 & 17 & 17 \\ \hline
+        227 & 16: 21, 15 & 17 & 16 & 16 \\ \hline
+        228 &  & 18 & 19 & 22 \\ \hline
+        229 &  & 18 & 19 & 1 \\ \hline
+        230 & 12: 9, 18, 4 & 18 & 12 & 12 \\ \hline
+        231 & 8: 9, 18, 7 & 18 & 7 & 8 \\ \hline
+        232 & 11: 2, 8, 14 & 18 & 11 & 2 \\ \hline
+        233 & 18: 8, 15, 6 & 18 & 18 & 18 \\ \hline
+        234 & 18: 15, 14, 8 & 18 & 18 & 18 \\ \hline
+        235 & 10: 12, 5 & 18 & 10 & 10 \\ \hline
+        236 & 18: 21, 14, 8 & 18 & 18 & 18 \\ \hline
+        237 & 12: 20, 14, 2 & 18 & 12 & 2 \\ \hline
+        238 & 18: 14, 20, 2 & 18 & 18 & 18 \\ \hline
+        239 & 8: 9, 18, 15 & 18 & 15 & 15 \\ \hline
+        240 & 8: 12, 14, 2 & 18 & 8 & 8 \\ \hline
+        241 & 2: 8, 14, 18 & 18 & 2 & 2 \\ \hline
+        242 & 18: 15, 7, 8 & 18 & 18 & 18 \\ \hline
+        243 & 13: 12, 20, 14 & 18 & 13 & 13 \\ \hline
+        244 & 20:12 & 19 & 20 & 20 \\ \hline
+        245 & 2: 10, 6 & 19 & 2 & 10 \\ \hline
+        246 & 2: 12, 14, 16 & 19 & 16 & 16 \\ \hline
+        247 & 14: 19, 21, 10 & 19 & 19 & 21 \\ \hline
+        248 & 6: 10, 12, 16 & 19 & 16 & 6 \\ \hline
+        249 & 2: 8, 21, 17 & 19 & 21 & 17 \\ \hline
+        250 & 14: 19, 15, 20 & 19 & 19 & 14 \\ \hline
+        251 & 6: 8, 9, 15, 12, 18 & 19 & 15 & 15 \\ \hline
+        252 & 14; 11, 4, 2 & 19 & 14 & 4 \\ \hline
+        253 & 8: 7, 9, 18 & 19 & 7 & 18 \\ \hline
+        254 & 10: 6, 4, 18, 15, 20, 19 & 19 & 10 & 15 \\ \hline
+        255 & 8: 14, 2, 7 & 19 & 7 & 8 \\ \hline
+        256 & 19: 16, 12, 18 & 19 & 19 & 19 \\ \hline
+        257 & 9: 20, 15, 6 & 19 & 9 & 9 \\ \hline
+        258 & 3: 2, 20, 19 & 19 & 3 & 3 \\ \hline
+        259 & 9: 2, 18, 13 & 20 & 13 & 13 \\ \hline
+        260 & 6: 12, 20, 7 & 20 & 7 & 12 \\ \hline
+        261 &  & 20 & 21 & 15 \\ \hline
+        262 & 14: 10, 8, 18 & 20 & 14 & 18 \\ \hline
+        263 & 20: 21, 18, 17 & 20 & 20 & 20 \\ \hline
+        264 & 7: 20, 9, 17 & 20 & 7 & 7 \\ \hline
+        265 & 20: 6, 14, 2 & 20 & 20 & 6 \\ \hline
+        266 & 9: 2, 17 & 20 & 17 & 9 \\ \hline
+        267 & 8: 7, 20, 6 & 20 & 8 & 6 \\ \hline
+        268 & 20: 9, 8, 15 & 20 & 20 & 20 \\ \hline
+        269 & 6: 8, 2, 10, 13, 12, 20, 18 & 20 & 13 & 18 \\ \hline
+        270 & 14: 2, 8, 11 & 20 & 14 & 11 \\ \hline
+        271 & 18: 14, 12, 9 & 20 & 18 & 18 \\ \hline
+        272 & 14: 12, 20, 15 & 20 & 15 & 14 \\ \hline
+        273 & 21: 17, 18, 10 & 21 & 21 & 21 \\ \hline
+        274 & 8: 20, 21, 14 & 21 & 21 & 21 \\ \hline
+        275 & 14: 2, 6, 4 & 21 & 14 & 14 \\ \hline
+        276 & 12: 14, 13, 20 & 21 & 13 & 12 \\ \hline
+        277 & 8; 6, 7, 20 & 21 & 20 & 6 \\ \hline
+        278 & 12: 14, 15, 2 & 21 & 12 & 15 \\ \hline
+        279 & 10: 3, 21 & 21 & 10 & 10 \\ \hline
+        280 & 10; 11, 12 ,21 & 21 & 21 & 10 \\ \hline
+        281 &  & 21 & 21 & 10 \\ \hline
+        282 & 9: 20, 8, 6 & 21 & 9 & 6 \\ \hline
+        283 & 21: 14,1,10 & 21 & 21 & 21 \\ \hline
+        284 & 2: 6, 7, 21, 17, 14, 12 & 21 & 21 & 2 \\ \hline
+        285 & 17: 13, 21,8 & 21 & 17 & 17 \\ \hline
+        286 & 10: 21, 15 & 21 & 21 & 21 \\ \hline
+        287 & 14: 3, 11 & 21 & 3 & 11 \\ \hline
+        288 &  & 82-188/S14 & 21 & 16 \\ \hline
+        289 & 14: 2, 8, 4 & 82-188/S14 & 14 & 4 \\ \hline
+        290 & 7: 2, 8, 10 & 82-188/S14 & 7 & 7 \\ \hline
+        291 & 10: 14, 8 & 82-188/S14 & 10 & 8 \\ \hline
+        292 & 2: 7, 8, 4 & 82-188/S14 & 7 & 2 \\ \hline
+        293 & 2: 4, 7, 9 & 82-188/S14 & 7 & 2 \\ \hline
+        294 & 12: 20, 19 & 82-188/S14 & 20 & 19 \\ \hline
+        295 & 6: 8, 14, 10 & 82-188/S14 & 6 & 6 \\ \hline
+        2096 & 20: 12, 13, 14 & 82-188/S14 & 20 & 13 \\ \hline
+        297 & 2: 11, 12, 14 & 82-188/S14 & 2 & 11 \\ \hline
+        298 & 14: 2, 8, 3 & 82-188/S14 & 14 & 14 \\ \hline
+        299 & 12: 14, 2, 10 & 82-188/S14 & 12 & 12 \\ \hline
+        300 & 9: 7, 20, 10 & 82-188/S14 & 20 & 7 \\ \hline
+        301 & 11: 4, 2, 10 & 82-188/S14 & 11 & 4 \\ \hline
+        302 & 12: 20, 9, 8 & 82-188/S14 & 20 & 9 \\ \hline
+        303 & 6: 8, 10, 14 & 82-188/S14 & 6 & 6 \\ \hline
+        304 & 6: 7, 8, 15 & 82-188/S14 & 15 & 6 \\ \hline
+        305 & 6: 8, 9, 10 & 85-131/S14 & 6 & 6 \\ \hline
+        306 & 9: 2, 6,18 & 85-131/S14 & 18 & 2 \\ \hline
+        307 & 6: 8,9,18 & 85-131/S14 & 18 & 9 \\ \hline
+        308 & 8: 6, 9, 10 & 85-131/S14 & 8 & 6 \\ \hline
+\end{longtable}
+
+\vspace{\fill}
+\pagebreak
+\subsection*{Appendix B: Source Code for Exact Algorithm with Hungarian}
+
+\par Dependencies:
+\begin{itemize}
+    \item Python \texttt{numpy} package: available at \url{http://www.numpy.org/};
+    \item Python \texttt{Munkres} package: available at \url{https://pypi.python.org/pypi/munkres/};
+\end{itemize}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color
+  basicstyle=\footnotesize,        % size of fonts used for the code
+  breaklines=true,                 % automatic line breaking only at whitespace
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  keywordstyle=\color{blue},       % keyword style
+  stringstyle=\color{mymauve},     % string literal style
+}
+
+\begin{lstlisting}[language=python]
+from munkres import Munkres, print_matrix
+import numpy, sys
+import re
+
+def getCost(tier):
+    return 2 * tier * tier
+
+# Given a column number for augmented matrix, find its seminar number.
+def getSeminar(index, q):
+    s = 0
+    for i in xrange(len(q)):
+        s += q[i]
+        if index < s:
+            return i + 1
+    return -1   # Shouldn't happen!
+
+# Parse an input line to (seminar, tier) pairs
+def parseLine(line):
+    tierStrings = re.split(':|;', line)
+    splitTier = [x.split(",") for x in tierStrings]
+    splitTierResult = list()
+    for tier in xrange(len(splitTier)):
+        splitTierResult.append(list())
+        for selection in splitTier[tier]:
+            sanitizedSelection = re.sub("\D", "", selection)
+            if re.sub("\D", "", sanitizedSelection) != "":
+                splitTierResult[tier].append(int(sanitizedSelection))
+    result = dict()
+    for i in xrange(len(splitTierResult)):
+        for s in splitTierResult[i]:
+            if not(1 <= s and s <= m):
+                print "Warning: Student entered out-of-bound Seminar ID: %s" % line
+            elif s in result:
+                print "Warning: Student has multiple entry for %d on line %s" % (s, line)
+            else:
+                result[s] = getCost(i)
+
+    return result
+
+#
+# !-- Entry point --!
+#
+# Specify input file name. 
+inputPath = "data/Fall2014"
+
+# Ask for parameters from user
+m = int(raw_input("Enter number of seminars (Seminar ID starts from 1): "))
+qq = raw_input("Enter quotas for %d seminars: " % m)
+if len(qq.split()) == 1:
+    q = [int(qq.split()[0]) for i in xrange(m)]
+elif len(qq.split()) == m:
+    q = [int(qq.split()[i]) for i in xrange(m)]
+else:
+    print "Invalid quota input!"
+    sys.exit(1)
+
+# Load student selections from input file.
+print "Parsing input file `%s`..." % inputPath
+with open(inputPath, 'r') as f:
+    userInput = f.readlines()
+if userInput[-1].startswith("END"):
+    userInput = userInput[:-1]
+else:
+    raise Exception("Last line of file must be END!")
+    sys.exit(1)
+A = [parseLine(line) for line in userInput] # Parse input lines
+n = len(A)
+print "Number of students: %s" % n
+if sum(q) < n:
+    print "Quota cannot fit all students!"
+    sys.exit(1)
+
+# Transfer array to Student-Seminar.
+B = []
+MCOST = 100000
+for i in xrange(n):
+    B.append([A[i][j] if j in A[i] else MCOST for j in xrange(1, m+1)])
+# Duplicate columns for hungarian
+B = numpy.array(B, dtype='int32')
+Slices = list()
+for i in xrange(m):
+    Slices.append(numpy.tile(numpy.transpose([B[:,i]]), q[i]))
+C = numpy.concatenate(tuple(Slices), axis=1)
+# Add zero rows for dummy students
+for i in xrange(sum(q) - n):
+    C = numpy.vstack([C, numpy.zeros(sum(q), dtype='int32')])
+C = C.astype(int)
+
+# Apply Munkres library to calculate Hungarian.
+print "Running Hungarian algorithm on matrix of dimension", C.shape
+C = C.tolist()
+m = Munkres()
+indexes = m.compute(C)
+total = 0
+print "Student ID, Assigned Seminar, Cost"
+for row, column in indexes:
+    if row >= n: continue # Skip dummy students
+    value = C[row][column]
+    total += value
+    print '%d, %d, %d' % (row, getSeminar(column, q), value)
+print 'Total Cost: %d' % total
+\end{lstlisting}
+
+\vspace{\fill}
+\pagebreak
+\subsection*{Appendix C: Source Code for Randomized Approximation Algorithm}
+\par Dependencies:
+\begin{itemize}
+    \item Python \texttt{numpy} package: available at \url{http://www.numpy.org/};
+\end{itemize}
+
+\begin{lstlisting}[language=python]
+import math, numpy, sys
+import re
+import copy
+import random
+
+def getCost(tier):
+    return 2 * tier * tier
+
+# Parse an input line to (seminar, tier) pairs
+def parseLine(line):
+    tierStrings = re.split(':|;', line)
+    splitTier = [x.split(",") for x in tierStrings]
+    splitTierResult = list()
+    for tier in xrange(len(splitTier)):
+        splitTierResult.append(list())
+        for selection in splitTier[tier]:
+            sanitizedSelection = re.sub("\D", "", selection)
+            if re.sub("\D", "", sanitizedSelection) != "":
+                splitTierResult[tier].append(int(sanitizedSelection))
+    
+    result = dict()
+    for i in xrange(len(splitTierResult)):
+        for s in splitTierResult[i]:
+            if not(1 <= s and s <= m):
+                print "Warning: Student entered out-of-bound Seminar ID: %s" % line
+            elif s in result:
+                print "Warning: Student has multiple entry for %d on line %s" % (s, line)
+            else:
+                result[s] = getCost(i)
+
+    return result
+
+# Main function for running randomized assignment.
+def randomAsgn(quotaRatio):
+    roster = [list() for i in xrange(m+1)]
+    currCost = 0
+    currAsgn = dict()
+    availStudents = set(range(n))
+    # Stage One: Assign first choices, up to set quota.
+    for s in xrange(1, m+1):
+        tmp = randomSub(set(R[s][0]) & availStudents,
+                int(math.floor(float(q[s-1]) * quotaRatio)))
+        roster[s] += tmp
+        currCost += getCost(0) * len(tmp)
+        for student in tmp:
+            currAsgn[student] = s
+        availStudents = availStudents.difference(set(tmp))
+    # Stage Two: Assign second choices, as many as possible.
+    for s in randomly(xrange(1, m+1)):
+        tmp = randomSub(set(R[s][1]) & availStudents, q[s-1] - len(roster[s]))
+        roster[s] += tmp
+        currCost += getCost(1) * len(tmp)
+        for student in tmp:
+            currAsgn[student] = s
+        availStudents = availStudents.difference(set(tmp))
+    # Stage Three: Enroll remanining students in Round-robin fashion.
+    s = 1
+    while len(availStudents) > 0:
+        if len(roster[s]) < q[s-1]:
+            student = availStudents.pop()
+            roster[s].append(student)
+            currCost += MCOST
+            currAsgn[student] = s
+        s = 1 if s == m else s+1    
+    return (currCost, currAsgn, roster)
+
+# Getting random sublist of a set with length l
+def randomSub(L, l):
+    return random.sample(list(L), min(len(list(L)), l))
+
+# Gives random iterator of a list
+def randomly(seq):
+    shuffled = list(seq)
+    random.shuffle(shuffled)
+    return iter(shuffled)
+
+
+#
+# !-- Entry point --!
+#
+# Specify input file name. 
+inputPath = "data/Fall2014"
+
+# Ask for parameters from user
+m = int(raw_input("Enter number of seminars (Seminar ID starts from 1): "))
+qq = raw_input("Enter quotas for %d seminars: " % m)
+if len(qq.split()) == 1:
+    q = [int(qq.split()[0]) for i in xrange(m)]
+elif len(qq.split()) == m:
+    q = [int(qq.split()[i]) for i in xrange(m)]
+else:
+    print "Invalid quota input!"
+    sys.exit(1)
+iters = int(raw_input("Enter number of iterations to run randomized assignment: "))
+
+# Load student selections from input file.
+print "Parsing input file `%s`..." % inputPath
+with open(inputPath, 'r') as f:
+    userInput = f.readlines()
+if userInput[-1].startswith("END"):
+    userInput = userInput[:-1]
+else:
+    raise Exception("Last line of file must be END!")
+    sys.exit(1)
+A = [parseLine(line) for line in userInput] # Parse input lines
+n = len(A)
+print "Number of students: %s" % n
+if sum(q) < n:
+    print "Quota cannot fit all students!"
+    sys.exit(1)
+
+# Transfer input to (student,seminar) -> ranking mapping.
+# Initialize (seminar, ranking) -> student mapping.
+B = []
+R = [([], [])]
+MCOST = 100000
+for i in xrange(n):
+    B.append([A[i][j] if j in A[i] else MCOST for j in xrange(1, m+1)])
+for i in xrange(1, m+1):
+    rankedFirst = list()
+    rankedSecond = list()
+    for s in xrange(n):
+        if i in A[s] and A[s][i] == getCost(0):
+            rankedFirst.append(s)
+        elif i in A[s] and A[s][i] == getCost(1):
+            rankedSecond.append(s)
+    R.append((rankedFirst, rankedSecond))
+
+# Mainloop for iterations
+bestCost = sys.maxint
+bestAsgn = list()
+roster = list()
+bestRatio = 0.0
+for i in xrange(iters):
+    for j in xrange(1, max(q)+1):
+        (currCost, currAsgn, currRoster) = randomAsgn(j * 1.0 / max(q))
+        if currCost < bestCost:
+            print "Current optimal cost: %d... [Run %d out of %d]" % (currCost, i+1, iters)
+            bestCost = currCost
+            bestAsgn = copy.deepcopy(currAsgn)
+            bestRoster = copy.deepcopy(currRoster)
+            bestRatio = j * 1.0 / max(q)
+
+print "Best Cost: %d  (with first-choice quota %f)" % (bestCost, bestRatio)
+print "Assignment as follows:"
+for i in xrange(n):
+    print "%d -> %d" % (i, bestAsgn[i])
+print "--------------------------------"
+print "Seminar roster:"
+for i in xrange(1, m+1):
+    print "Seminar %d:" % i, bestRoster[i]
+\end{lstlisting}
+
+\vspace{\fill}
 \end{document}
