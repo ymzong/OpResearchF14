@@ -164,8 +164,11 @@ Yiming Zong\\ \\
 
 \section{Further Work \& Enhancements}
 
+\subsection{Allowing flexible input parameters}
+    \par\qquad For our implementation, the main test case is for seminars with the same enrollment quota, and that each student makes one ``first-choice'' and three ``second-choices''. However, our implementation of algorithm in \emph{Sections 4-5} also supports seminars with various quotas and also students that rank arbitrary number of seminars in arbitrary number of tiers. This makes our implementation applicable to much more real-world cases because in general the course sizes need not be the same, and that student should be given the opportunity to make flexible selections.
+
 \subsection{Supporting bi-directional preference/cost parameters with Stable Marriage Algorithm}
-   \par\qquad One of the features we could implement in the future might be that the final assignment does not only depends on the students' rankings on seminars but also the seminars' rankings on students. For example if a certain seminar is very major-orientated and prefers history major students mostly, then we will want to enhance our algorithm by accommodating for the bi-directional preferences. Algorithms like the Stable Marriage Algorithm would be useful to base on, or we may simply use the sum of cost in both students' and seminars' perspectives as parameters in the algorithm specified in \emph{Section Five}.
+   \par\qquad One of the features we could implement in the future might be that the final assignment does not only depends on the students' rankings on seminars but also the seminars' rankings on students. For example if a certain seminar is very major-orientated and prefers history major students mostly, then we will want to enhance our algorithm by accommodating for the bi-directional preferences. Algorithms like the Stable Marriage Algorithm would be useful to base on, or we may simply use the sum of cost in both students' and seminars' perspectives as parameters in the algorithms specified in \emph{Sections 4-5}.
    
 \subsection{Stable Assignment Optimization}
     \par\qquad Similar to the principle of \emph{Stable Marriage Problem}, in the final seminar assignment we do not want to have two students \emph{A} and \emph{B}, such that \emph{A} prefers \emph{B}'s section, and also vice versa (we call those two students \emph{rogue pair}). This can be done by scanning each pair of students and fixing every \emph{rogue pair}. The algorithm is outlined as follows:
@@ -198,8 +201,12 @@ Yiming Zong\\ \\
         
         \end{algorithmic}
     \end{algorithm}
+    
+\subsection{Parallelize Approximation Algorithm}
+    \par\qquad Since the approximation algorithm in \emph{Section Five} depends on a user-defined number of independent trials, we can actually parallelize the algorithm by using multiple threads, such that each worker is able to make trials and aggregate the result to the \emph{Master} node. For a modern machine with multiple CPU cores, this is able to reduce the algorithm runtime by at least 50\%.
 
-\section{Acknowledgements}
+\vskip .3in
+\section*{Acknowledgements}
 \par\qquad The authors would like to thank Professor Alan Frieze for proposing the Hungarian algorithm in \emph{Section 5} and for holding weekly meetings to track our progress. Also, we thank Professor Brian W. Junker, Professor Joseph E. Devine, and Gloria P. Hill for providing us with the real seminar assignment data for Year 2013. And, the thank goes to Brian Clapper for his Python implementation of Hungarian algorithm, which made our final results and analyis possible.
 
 \urlstyle{rm}
