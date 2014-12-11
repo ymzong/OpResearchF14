@@ -130,7 +130,7 @@ Yiming Zong\\ \\
 %
 % Approximation Algorithm (Greedy)
 %
-\section{Approximation Algorithms}
+\section{Approximation Algorithm}
     \par\qquad While the previous exact algorithm minimizes the sum of ranks of students across all seminars, it does \emph{not} balance out the preference of students in different seminars. In order to do so, a heuristic for approximation is to place an aritificial hard quota, $\mathcal{Q}$, on the number of students in any seminar that places it as its first option. While the optimal solution for different values of $Q$ can be obtained by running Hungarian algorithm with different $\mathcal{Q}$'s by creating different combinations of dummy seminars, its runtime (more than one hour) makes it undesirable.
     \par\qquad In this case, our solution is to use randomized greedy algorithm for arbitrarily number of times, and return the best solution to the user. Following is the detail of the algorithm:
 
@@ -151,8 +151,24 @@ Yiming Zong\\ \\
         \end{algorithmic}
     \end{algorithm}
 
+%
+% Summary
+%
+\section{Summary of Results}
+    \par\qquad The algorithms are tested on the real data for the incoming class of Dietrich College for Year 2013 ($n=309$). We have found that the approximation algorithm (...), while the \emph{Hungarian Algorithm} gives really satisfactory assignment within five minutes. Despite the satisfactory performance of the exact algorithm, its run-time complexity $\mathcal{O}(n^3)$ makes the algorithm undesirable for $n>1000$. Following is a comparison between the performance of manual assignment, approximation algorithm, and exact algorithm:
+
+\subsection{Approximation Algorithms}
+\subsection{Naive Exact Algorithm}
+\subsection{Smoothed Exact Algorithm}
+
+
+\section{Further Work \& Enhancements}
+
+\subsection{Supporting bi-directional preference/cost parameters with Stable Marriage Algorithm}
+   \par\qquad One of the features we could implement in the future might be that the final assignment does not only depends on the students' rankings on seminars but also the seminars' rankings on students. For example if a certain seminar is very major-orientated and prefers history major students mostly, then we will want to enhance our algorithm by accommodating for the bi-directional preferences. Algorithms like the Stable Marriage Algorithm would be useful to base on, or we may simply use the sum of cost in both students' and seminars' perspectives as parameters in the algorithm specified in \emph{Section Five}.
+   
 \subsection{Stable Assignment Optimization}
-    \par Similar to the principle of \emph{Stable Marriage Problem}, in our final seminar assignment we do not want to have two students \emph{A} and \emph{B}, such that \emph{A} prefers \emph{B}'s section, and also vice versa (we call those two students \emph{rogue pair}). This can be done by scanning each pair of students and fixing every \emph{rogue pair}. The algorithm is outlined in \emph{Algorithm 2} on the next page.
+    \par\qquad Similar to the principle of \emph{Stable Marriage Problem}, in the final seminar assignment we do not want to have two students \emph{A} and \emph{B}, such that \emph{A} prefers \emph{B}'s section, and also vice versa (we call those two students \emph{rogue pair}). This can be done by scanning each pair of students and fixing every \emph{rogue pair}. The algorithm is outlined as follows:
     \begin{algorithm}
         \caption{Rogue-Pair Fixing Algorithm}
         \begin{algorithmic}
@@ -182,22 +198,6 @@ Yiming Zong\\ \\
         
         \end{algorithmic}
     \end{algorithm}
-
-%
-% Summary
-%
-\section{Summary of Results}
-    \par\qquad The algorithms are tested on the real data for the incoming class of Dietrich College for Year 2013 ($n=309$). We have found that the approximation algorithm (...), while the \emph{Hungarian Algorithm} gives really satisfactory assignment within five minutes. Despite the satisfactory performance of the exact algorithm, its run-time complexity $\mathcal{O}(n^3)$ makes the algorithm undesirable for $n>1000$. Following is a comparison between the performance of manual assignment, approximation algorithm, and exact algorithm:
-
-\subsection{Approximation Algorithms}
-\subsection{Naive Exact Algorithm}
-\subsection{Smoothed Exact Algorithm}
-
-\section{Further Work \& Enhancements}
-
-\subsection{Supporting bi-directional preference/cost parameters with Stable Marriage Algorithm}
-
-\subsection{And more...}
 
 \section{Acknowledgements}
 \par\qquad The authors would like to thank Professor Alan Frieze for proposing the Hungarian algorithm in \emph{Section 5} and for holding weekly meetings to track our progress. Also, we thank Professor Brian W. Junker, Professor Joseph E. Devine, and Gloria P. Hill for providing us with the real seminar assignment data for Year 2013. And, the thank goes to Brian Clapper for his Python implementation of Hungarian algorithm, which made our final results and analyis possible.
