@@ -155,12 +155,22 @@ Yiming Zong\\ \\
 % Summary
 %
 \section{Summary of Results}
-    \par\qquad The algorithms are tested on the real data for the incoming class of Dietrich College for Year 2013 ($n=309$). We have found that the approximation algorithm (...), while the \emph{Hungarian Algorithm} gives really satisfactory assignment within five minutes. Despite the satisfactory performance of the exact algorithm, its run-time complexity $\mathcal{O}(n^3)$ makes the algorithm undesirable for $n>1000$. Following is a comparison between the performance of manual assignment, approximation algorithm, and exact algorithm:
+    \par\qquad So far we have tried two algorithms to solve the seminar assignment problem, namely the Exact Algorithm which applies the Hungarian Algorithm, and the Approximation Algorithm which utilizes randomization. Both algorithms are tested on the real data for the incoming class of Dietrich College for Year 2013 $(n=308, m=22)$. The cost for assigning a student to a seminar is $g(x)=2x^2$, where $x$ is the tier that student ranks the seminar; if the student does not rank the seminar, the cost would be $g(x)=10\,000$, which is a huge constant inspired by Big-M method.
+
+\subsection{Exact Algorithm}
+\par\qquad We use the Hungarian Algorithm to find the student-seminar assignment with the minimal total cost. The algorithm gives a very satisfactory assignment within five minutes. To be specific, among all the 308 students, 207 of them are assigned to their first choice of seminars, consisting of 67.2\% of the population; and 82 are assigned to their second choice of classes, consisting of 26.6\% of the population. Therefore, a total of 93.8\% of the students are assigned to either their first or second choice of seminars. The remaining 19 students do not provide any preference of seminars, so they are randomly assigned to seminars which are not full. We also get a satisfying balance among seminar enrollments. Among all the 22 existing seminars, 18 of them get full enrollment of 16 students (16 was the highest enrollment allowed in 2013); one of the seminar get 15 students; one get 5 students; and the other two left seminars get 0 students enrolled. For the seminars that get 0 student, we would simply cancel it. The total cost of the optional solution is $1\,900\,164$.
 
 \subsection{Approximation Algorithms}
-\subsection{Naive Exact Algorithm}
-\subsection{Smoothed Exact Algorithm}
+\par\qquad The Approximation Algorithm returns a quite satisfying result with 10000 iterations under two minutes and a half. Among the 308 freshmen students, 151 of them are assigned to their first choices, which consists of 49.0\% of the total population of students; 132 are assigned to their second choices, which consists of 42.9\% of the population; 5 students are assigned to their later choices; and 19 of them do not show any preference of seminars and so are assigned to a random seminar which is still not full. Therefore, a total of 91.9\% of the students who indicated preferences are assigned to either their first or second choice. Regarding the balance of enrollments among the seminars, 15 of the seminars get full enrollment of 16 students; 3 of the seminars get pretty good enrollments of 15, 14 and 13 students respectively; and 3 of the seminars are poorly enrolled with 7, 5 and 2 students respectively. The total cost of the optional solution is $2\,200\,270$.
 
+\subsection{Comparison \& Analysis}
+
+\par\qquad According to the results of the Exact Algorithm and the Approximation Algorithm, both are able to provide us with quite satisfying assignments. More than 90\% of the students are able to get in their first or second choices of seminars. Also, the class enrollments are pretty balanced. 
+
+However, both algorithms have their own pros and cons. The Approximation Algorithm has a faster and scalable performance compared to the Exact Algorithm because it uses randomization instead of calculating the best result. Therefore, when the dataset gets really large, it’s better to choose the Approximation Algorithm. However, the relative performance of the Approximation Algorithm cannot be guaranteed compared to the Exact Algorithm, and it is absolutely not as good as the Exact Algorithm which always gives the minimum cost. Therefore, when the dataset is not huge and the time of using the Exact Algorithm is realistic, the Exact Algorithm should be a better choice as it provides us with the best solution.
+
+\subsection{Limitations}
+    \par\qquad Despite the satisfactory performance of the exact algorithm, its run-time complexity $\mathcal{O}(n^3)$ makes the algorithm undesirable for $n>1000$. Therefore, further work should be focused on more effective heuristics for the approximation algorithm in order to improve the quality of result under a reasonable time constraint. 
 
 \section{Further Work \& Enhancements}
 
