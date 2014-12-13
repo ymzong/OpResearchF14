@@ -5,7 +5,7 @@
 %\usepackage{hyperref}
 \usepackage[hyphens]{url}
 \usepackage{bbm}
-\usepackage{amsfonts}
+\usepackage{amsfonts, amssymb}
 \usepackage{alltt}
 \usepackage{multirow, caption}
 \usepackage{algorithm}
@@ -54,7 +54,7 @@ Yiming Zong\\ \\
 
 % Paper Abstract
 \begin{abstract}
-    \par\qquad As the number of college students increases, an optimization algorithm that can automatically assign students to classes is becoming a pressing need in many universities. In attempts of solving the algorithm, various questions arised. What is the objective function to optimize? What are the aspects that need to be considered? In this final report, we will deliver solutions to the Freshman Seminar Assignment Problem, our team's final project for Operations Research II, Fall 2014. We will first briefly describe the real-world problem and create a basic mathematical model based on the data. Then, we will feed the pre-processed data into several different algorithms with various objective functions and run-time constraints, and compare their final results. Eventually, we will discuss some generalizations of our current problem and propose potential algorithms for solving them. Our algorithms improve the quality of assignment significantly in terms of student preference compared to the traditional manual approach.
+    \par\qquad As the number of college students increases, an optimization algorithm that can automatically assign students to classes becomes a pressing need in many universities. In attempts of solving the problem, various questions arose. What is the objective function to optimize? What aspects need to be considered? In this final report, we will deliver solutions to the Freshman Seminar Assignment Problem, our team's final project for Operations Research II, Fall 2014. We will first briefly describe the real-world problem and create a basic mathematical model based on the data. Then, we will feed the pre-processed data into several different algorithms with various objective functions and run-time constraints, and compare their final results. Eventually, we will discuss some generalizations of our current problem and propose potential algorithms for solving them. Our algorithms improve the quality of assignment significantly in terms of student preference compared to the traditional approach of manually assigning students.
 \end{abstract}
 \vspace{\fill}
 \pagebreak
@@ -63,17 +63,17 @@ Yiming Zong\\ \\
 % Main Body Starts
 %
 \section{Problem Overview}
-   \par\qquad The assignment problem we are solving in this project was initially broached by Dietrich College of Humanities and Social Sciences at Carnegie Mellon University. The main goal is to assign freshmen to mendatory seminars in a way such that all seminars are filled, and that students are assigned to the seminars that they are interests in. In the real-world dataset that we are provided, there are $308$ students and $22$ seminars. Each seminar can have at most 16 students, and each student must enroll in exactly one seminar.
-   \par\qquad To facilitate the matching process, students are asked to rank one ``first-choice'' seminar and three ``second-choice'' seminars. We associate costs with assigning a student to a seminar based on the student's preference for the seminar. To find the optimal assignment, we approched the problem in two ways -- minimizing the total cost across all seminars and smoothing out enrolled students' preference for each seminar.
+   \par\qquad The assignment problem we are solving in this project was initially broached by Dietrich College of Humanities and Social Sciences at Carnegie Mellon University. The main goal is to assign freshmen to mandatory seminars in a way such that all seminars are filled, and that students are assigned to the seminars that they are interested in. In the real-world dataset we are provided with, there are $308$ students and $22$ seminars. Each seminar can have at most 16 students, and each student must enroll in exactly one seminar.
+   \par\qquad To facilitate the matching process, students are asked to rank one ``first-choice'' seminar and three ``second-choice'' seminars. We associate costs with assigning a student to a seminar based on the student's preference for the seminar. To find the optimal assignment, we approached the problem in two ways -- minimizing the total cost across all seminars and smoothing out enrolled students' preference for each seminar.
 
 \section{Mathematical Model}
-\par\qquad Based on the problem description in \emph{Section 1}, we can build a mathematical model for it in order to describe an alrogithm for solving the problem with any valid input data.
+\par\qquad Based on the problem description in \emph{Section 1}, we can build a mathematical model for it in order to describe an algorithm for solving the problem with any valid input data.
 
 \subsection{General Input}
 \begin{itemize}
     \item $n$: Number of students ($n > 0$);
     \item $m$: Number of seminars ($m > 0$);
-    \item $k$: Max number of selections that a student can make ($1 \leq k \leq m$);
+    \item $k$: Maximum number of selections that a student can make ($1 \leq k \leq m$);
     \item $s_{i,j}$: The $j^{\text{th}}$ selection of $i^{\text{th}}$ student, where $1\leq i \leq n$ and $1\leq j \leq k$. $s_{i,j}=0$ when the Student $i$ makes no corresponding choice for Rank $j$;
     \item $q_k$: The quota for $k^{\text{th}}$ seminar, where $1\leq k \leq m$.
 \end{itemize}
@@ -82,7 +82,7 @@ Yiming Zong\\ \\
 \begin{itemize}
     \item Positivity: $n,m,k>0$, $\forall k\in\{1,\cdots,m\}, q_k>0$;
     \item Number of selections for student is bounded by number of available seminars: $k \leq m$;
-    \item \textbf{(?)} Student rankings are valid and unique: $\forall (i,j), 1\leq s_{i,j} \leq m$. And, for each $i$, all non-zero entries $s_{i,j}$'s take unique values.
+    \item Student rankings are valid and unique: $\forall (i,j), 1\leq s_{i,j} \leq m$. And, for each $i$, all non-zero entries $s_{i,j}$'s take unique values.
 \end{itemize}
 
 \subsection{Decision Variables}
@@ -91,65 +91,76 @@ Yiming Zong\\ \\
 \end{itemize}
 
 \subsection{Data Pre-Processing}
-    \par\qquad In order to deal with cases when a student is only willing or allowed to rank $k'<m$ seminars, we automatically set all ``unassigned'' priorities to $(k+1)$. Also, we change the representation of students' preference from \emph{(student, ranking) $\mapsto$ seminar} to \emph{(student, seminar) $\mapsto$ ranking} to make further calculations easier, i.e.
-        $$X_{i,j}=\begin{cases}
-                    l &\text{If Student $i$ ranked $j$ as $l^{\text{th}}$ option, or $s_{i,l}=j$ for some $l\in\{1,\cdots,k\}$}\\
-                    {\bf\it M}     &\text{If Seminar $k$ is not on Student $i$'s list, or $s_{i,l} \neq j$ for all $l\in\{1,\cdots,k\}$}
-                  \end{cases},$$
-    where ${\bf\it M}$ is an arbitrarily large value in order to discourage the algorithm from assigning a student to a seminar that s/he did not list.
+    \par\qquad In order to deal with cases when a student is only willing or allowed to rank $k'<m$ seminars, we automatically set all ``unassigned'' priorities to a large value $\textit{M}$. Also, we change the representation of students' preference from \emph{(student, ranking) $\mapsto$ seminar} to \emph{(student, seminar) $\mapsto$ ranking} to make further calculations easier, i.e.6
+        $$X_{i,j}:=\begin{cases}
+                     l &\text{if Student $i$ ranked $j$ as $l^{\text{th}}$ option, or $s_{i,l}=j$ for some $l\in\{1,\cdots,k\}$}\\
+                     \textit{M}         &\text{if Seminar $j$ is not on Student $i$'s list, or $s_{i,l} \neq j$ for all $l\in\{1,\cdots,k\}$}
+                   \end{cases},$$
+    where $\textit{M}$ is an arbitrarily large value in order to discourage the algorithm from assigning a student to a seminar that s/he did not list.
 
 \subsection{General Constraints}
     \begin{itemize}
-    \item $Y_{i,j}$'s are indeed indicator variables: $\forall (i,j), Y_{i,j}\in\mathbb{Z}, Y_{i,j}\geq 0, Y_{i,j}\leq 1$;
-    \item Each student is assigned precisely one seminar: $\forall i$, $\sum_{l=1}^{m}{Y_{i,l}}=1$;
-    \item Each seminar is within enrollment quota: $\forall j$, $\sum_{l=1}^{n}{Y_{l,j}} \leq q_j$;
+    \item $Y_{i,j}$'s are indeed indicator variables: $\forall (i,j)\in[n]\times[k], Y_{i,j}\in\{0,1\}$;
+    \item Each student is assigned to precisely one seminar: $\forall i\in[n]$, $\sum_{l=1}^{m}{Y_{i,l}}=1$;
+    \item Each seminar is within enrollment quota: $\forall j\in[m]$, $\sum_{l=1}^{n}{Y_{l,j}} \leq q_j$;
 \end{itemize}
 
 %
 % Heuristic Selection
 %
 \section{Approach for Various Heuristic Functions}
-    \par\qquad Due to the flexibility of the original problem, we are proposing different objective functions for optimization, including minimizing the total ``rank'' given by the students, maximizing the number of student getting their top $\lambda k$ choice (where $\lambda\in(0,1)$), etc. In the following sub-sections we present our approach for each heuristic in mathematical terms.
+    \par\qquad Due to the flexibility of the original problem, we are proposing different objective functions for optimization, including minimizing the total ``ranks'' given by the students, and minimizing the variance of student preference across different seminars. In the following sub-sections we briefly introduce our approach for each heuristic.
 
 \subsection{Minimize Total Rank of Students}
-    \par\qquad In this case, our goal is to minimize the sum of all student rankings for their assigned seminars. To do so, our objective is to minimize $W = \sum_{i=1}^{n}{\sum_{j=1}^{m}{X_{i,j}Y_{i,j}}}.$
-\subsection{Minimize Variance of Students Preference in Each Seminar}
-    \par\qquad In addition to minimizing total rank of student, it would also be helpful if we could ``balance out'' students' preference of their assignd seminar for each seminar. For example, we do not want to have an assignment where some seminar has all students listing it as their first choice, yet some other seminar has none of the students listing it in their choices at all. With this idea in mind, for each seminar we wish to enforce a hard limit on the number of students enrolled that put it as first tier, second tier, etc.
-    \par\qquad Meanwhile, the hard limit can also affect the optimal solution that minimizes total rank of students in the final assignment. Therefore, care needs to be taken while picking the hard limits.
+    \par\qquad In this case, our goal is to minimize the sum of all student rankings for their assigned seminars. To do so, our objective is to minimize $W = \sum_{i=1}^{n}{\sum_{j=1}^{m}{X_{i,j}Y_{i,j}}}$. This would guarantee that students are as satisfied as they can be \emph{overall}.
+
+\subsection{Minimize Variance of Students Preference across Seminars}
+    \par\qquad In addition to minimizing the total rank of students, it would also be helpful if we could ``balance out'' students' preference of their assigned seminar for each seminar. For example, we do not want to have an assignment where some seminar has all students listing it as their first choice, yet some other seminar has none of the students listing it in their choices at all. In order to approximate the optimal solution, for each seminar we may enforce a hard limit on the number of students enrolled that ranked it as first tier, second tier, etc.
+    \par\qquad Meanwhile, the hard limits can clearly interfere with the optimal solution that minimizes the total rank of students in the final assignment. Therefore, care needs to be taken when picking the hard limits, such that there is a balance between maximizing overall satisfaction and minimizing variance of satisfaction across seminars.
+
 %
 % Optimization Algorithms
 %
 % Exact Algorithm (Hungarian)
 %
-\section{Exact Algorithm}
-    \par\qquad The problem can also be reduced to an \emph{Assignment Problem} when we include ``dummy seminars'' and ``dummy students''. When we apply \emph{Hungarian Algorithm}, we can obtain an absolute optimal solution that minimizes the total ``cost'' of students. Details about the algorithm are as follows:
+\section{Exact Algorithm for Minimizing Total Rank}
+    \par\qquad If we only consider the objective function in \emph{Section 3.1}, the problem can be reduced to an \emph{Assignment Problem} when we include ``dummy seminars'' and ``dummy students''. After applying \emph{Hungarian Algorithm}, we can obtain an absolute optimal solution that minimizes the total ``cost'' of students. Details about the algorithm are as follows:
     
 \subsection{Data Pre-Processing}
-    \par\qquad We start with the matrix $X_{i,j}$ as obtained in \emph{Section 2.4}. For each column that represents Seminar $j$, we create extra $(j-1)$ dummy seminars by duplicating the same column $q_j$ times. After that, we make our cost matrix square by adding zero rows at the bottom of the cost matrix. This gives us a matrix that we may feed into \emph{Hungarian Algorithm}.
+    \par\qquad We start with the matrix $X_{i,j}$ as obtained in \emph{Section 2.4}. For each column that represents Seminar $j$, we create extra $(j-1)$ dummy seminars by duplicating the same column $q_j$ times. After that, we make our cost matrix square by adding zero rows (i.e. dummy students) at the bottom of the cost matrix. This gives us a matrix that we may feed into \emph{Hungarian Algorithm}.
 
 \subsection{Hungarian Algorithm}
-    \par\qquad Given the square cost matrix from previous section, we may simply apply \emph{Hungarian Algorithm}, which returns a \emph{student-seminar} assignment with minimal total cost. The algorithm completes in polynomial time \cite{mt90}, and given the result we may simply assign each student to the actual seminar that the assignment corresponds to.
+    \par\qquad Given the square cost matrix from previous section, \emph{Hungarian Algorithm} returns a \emph{student-dummy seminar} assignment with minimal total cost in polynomial time \cite{mt90}. From the result, we may simply assign each student to the actual seminar that the dummy seminar in the augmented cost matrix corresponds to.
 
 %
 % Approximation Algorithm (Greedy)
 %
-\section{Approximation Algorithm}
-    \par\qquad While the previous exact algorithm minimizes the sum of ranks of students across all seminars, it does \emph{not} balance out the preference of students in different seminars. In order to do so, a heuristic for approximation is to place an aritificial hard quota, $\mathcal{Q}$, on the number of students in any seminar that places it as its first option. While the optimal solution for different values of $\mathcal{Q}$ can be obtained by running Hungarian algorithm with different $\mathcal{Q}$'s by creating different combinations of dummy seminars, its runtime (more than one hour) makes it undesirable.
-    \par\qquad In this case, our solution is to use the balanced algorithm with user-defined number of iterations, and then return the best solution to the user. This algorithm allows us to determine a desired distribution of student interest and minimize its ensuing variance. Following is the detail of the algorithm:
+\section{Approximation Algorithm for Constraining Variance}
+    \par\qquad While the previous exact algorithm minimizes the sum of ranks of students across all seminars, it does \emph{not} balance out the preference of students in different seminars. In order to do so, a heuristic for approximation is to place an artificial hard quota, $\mathcal{Q}\in(0,1]$, on the proportion of students in any seminar that place it as their first option. While the exact optimal solution for different values of $\mathcal{Q}$ can be obtained by running Hungarian algorithm with different combinations of dummy seminars, its runtime (more than one hour for $n=300$) makes it undesirable.
+    \par\qquad In this case, our solution is to use a randomized balanced algorithm with user-defined number of iterations, and then return the best solution to the user. This algorithm allows us to determine a desired distribution of student interest and minimize its ensuing variance. Following is the detail of the algorithm:
 
 \subsection{Balanced Algorithm}
-    \par For the balanced algorithm, we fix a value of $\mathcal{Q}$. For each seminar, we randomly select up to $\mathcal{Q}$ students who have selected it as their first choice, and assign them to that seminar. If the number of students who have ranked it first is smaller than $\mathcal{Q}$, then all of those students are assigned to that seminar. After each seminar has been filled with up to $\mathcal{Q}$ first choice students, we randomly fill the remaining $k - \mathcal{Q}$ seats in the seminar with the students who have ranked that seminar as their second choice. If there are students remaining after this second round of assignments, we then randomly assign them a seminar. The algorithm is outlined as follows, and it can be run multiple times in order to select an assignment that has the minimum total cost and variance of student interest.
+    \par\qquad For the balanced algorithm, we fix a value of $\mathcal{Q}$. For each seminar $j$, we randomly select up to $\mathcal{Q}\cdot q_j$ students who have selected it as their first choice, and assign them to that seminar. If the number of students who have ranked it first is smaller than $\mathcal{Q}\cdot q_j$, then all of those students are assigned to that seminar. After each seminar has been filled with up to $\mathcal{Q}\cdot q_j$ first choice students, we randomly fill the remaining $(q_j - \mathcal{Q}\cdot q_j)$ seats in the seminar with the students who have ranked that seminar as their second choice. If there are students remaining after this second round of assignments, we then randomly assign them each a seminar.
+    \par\qquad Due to the random nature of the algorithm, it is best to run it multiple times in order to select an assignment that gives minimum total cost. Each iteration of the algorithm is outlined as follows:
     \begin{algorithm}
         \caption{Balanced Algorithm}
         \begin{algorithmic}
-            \Ensure{$\text{asgn}_i \gets \text{seminar assignment for Student $i$ based on balanced algorithm}$}
-            \While{unassigned\_students != 0}  
-                \For{i = 1 to k}
-                    \State pool[i] $\gets \{\text{unassigned student s} \mid \text{s listed seminar $i$ as $r^\text{th}$ choice}\}$
-                \EndFor
-                \State Merge each pool[i] into asgn
-            \EndWhile
-            \State Fill in still unassigned students
+            \State{UnassignedStudent $\gets \{1,2,\cdots,n\}$}
+            \State{$\text{Roster}_j \gets \varnothing$ for each $j\in[m]$}
+            \For{j = 1 to m}
+                \State{FirstChoiceSet$_j$} $\gets$ \text{RandomSubset}$\left(\{i\in[n] \mid X_{i,j}=1 \} \cap \text{UnassignedStudent}, \mathcal{Q}\cdot q_j\right)$
+                \State{Roster$_j$} $\gets$ Roster$_j\;\cup$ FirstChoiceSet$_j$
+                \State{UnassignedStudent} $\gets$ UnassignedStudent $\setminus$ FirstChoiceSet$_j$
+            \EndFor
+            \For{j = 1 to m}
+                \State{SecondChoiceSet$_j$} $\gets$ \text{RandomSubset}$\left(\{i\in[n] \mid X_{i,j}=1 \} \cap \text{UnassignedStudent}, q_j - |\text{Roster$_j$}|\right)$
+                \State{Roster$_j$} $\gets$ Roster$_j\;\cup$ SecondChoiceSet$_j$
+                \State{UnassignedStudent} $\gets$ UnassignedStudent $\setminus$ SecondChoiceSet$_j$
+            \EndFor
+            \For{s {\bf in} UnassignedStudent}
+                \State Assign $s$ to a random available seminar
+            \EndFor
+            \Ensure{$\text{Roster}_j \gets \text{list of students in Seminar $j$ based on balanced algorithm}$ for each $j\in[m]$}
         \end{algorithmic}
     \end{algorithm}
 
@@ -157,30 +168,30 @@ Yiming Zong\\ \\
 % Summary
 %
 \section{Summary of Results}
-    \par\qquad So far we have tried two algorithms to solve the seminar assignment problem, namely the Exact Algorithm which applies the Hungarian Algorithm, and the Approximation Algorithm which utilizes randomization. Both algorithms are tested on the real data for the incoming class of Dietrich College for Year 2013 $(n=308, m=22)$. The cost for assigning a student to a seminar is $g(x)=2x^2$, where $x$ is the tier that student ranks the seminar; if the student does not rank the seminar, the cost would be $g(x)=10\,000$, which is a huge constant inspired by Big-M method.
+    \par\qquad So far we have implemented the two algorithms above to solve the seminar assignment problem, namely the Exact Algorithm which applies the Hungarian Algorithm, and the Approximation Algorithm which utilizes randomization. Both algorithms are tested on the real data for the incoming class of Dietrich College for Year 2013 $(n=308, m=22)$. The cost for assigning a student to a seminar is defined as $g(x)=2x^2$, where $x$ is the tier that student ranks the seminar; if the student does not rank the seminar, the cost would be $g(x)=10,000$, which is a huge constant inspired by Big-M method in linear programming.
 
 \subsection{Exact Algorithm}
-\par\qquad We use the Hungarian Algorithm to find the student-seminar assignment with the minimal total cost. The algorithm gives a very satisfactory assignment within five minutes. To be specific, among all the 308 students, 207 of them are assigned to their first choice of seminars, consisting of 67.2\% of the population; and 82 are assigned to their second choice of classes, consisting of 26.6\% of the population. Therefore, a total of 93.8\% of the students are assigned to either their first or second choice of seminars. The remaining 19 students do not provide any preference of seminars, so they are randomly assigned to seminars which are not full. We also get a satisfying balance among seminar enrollments. Among all the 22 existing seminars, 18 of them get full enrollment of 16 students (16 was the highest enrollment allowed in 2013); one of the seminar get 15 students; one get 5 students; and the other two left seminars get 0 students enrolled. For the seminars that get 0 student, we would simply cancel it. The total cost of the optional solution is $1\,900\,164$.
+\par\qquad We use the Hungarian Algorithm to find the student-seminar assignment with the minimal total cost. The algorithm gives a very satisfactory assignment within five minutes. To be specific, among all the 308 students, 207 of them are assigned to their first choice of seminars, consisting of 67.2\% of the population; and 82 are assigned to their second choice of classes, consisting of 26.6\% of the population. Therefore, a total of 93.8\% of the students are assigned to either their first or second choice of seminars. The remaining 19 students do not provide any preference of seminars, so they are randomly assigned to seminars which are not full. We also get a satisfying balance among seminar enrollments. Among all the 22 existing seminars, 18 of them get full enrollment of 16 students (16 was the highest enrollment allowed in 2013); one of the seminar gets 15 students; one gets 5 students; and the other two seminars left get 0 students enrolled. For the seminars with zero enrollment, we would simply cancel it. The total cost of the optimal solution is $1,900,164$.
 
-\subsection{Approximation Algorithms}
-\par\qquad The Approximation Algorithm returns a quite satisfying result with 10000 iterations under two minutes and a half. Among the 308 freshmen students, 151 of them are assigned to their first choices, which consists of 49.0\% of the total population of students; 132 are assigned to their second choices, which consists of 42.9\% of the population; 5 students are assigned to their later choices; and 19 of them do not show any preference of seminars and so are assigned to a random seminar which is still not full. Therefore, a total of 91.9\% of the students who indicated preferences are assigned to either their first or second choice. Regarding the balance of enrollments among the seminars, 15 of the seminars get full enrollment of 16 students; 3 of the seminars get pretty good enrollments of 15, 14 and 13 students respectively; and 3 of the seminars are poorly enrolled with 7, 5 and 2 students respectively. The total cost of the optional solution is $2\,200\,270$.
+\subsection{Approximation Algorithm}
+\par\qquad The Approximation Algorithm returns a quite satisfying result with 10,000 iterations in under two and a half minutes. Among the 308 freshmen students, 151 of them are assigned to their first choices, which consists of 49.0\% of the total population of students; 132 are assigned to their second choices, which consists of 42.9\% of the population; 5 students are assigned to their later choices; and 19 of them do not show any preference of seminars and are assigned to a random available seminar. Therefore, a total of 91.9\% of the students who indicated preferences are assigned to either their first or second choice. Regarding the balance of enrollments among the seminars, 15 of the seminars get full enrollment of 16 students; 3 of the seminars get pretty good enrollments of 15, 14 and 13 students respectively; and 3 of the seminars are poorly enrolled with 7, 5 and 2 students respectively. The total cost of the optional solution is $2,200,270$.
 
 \subsection{Comparison \& Analysis}
 
-\par\qquad According to the results of the Exact Algorithm and the Approximation Algorithm, both are able to provide us with quite satisfying assignments. More than 90\% of the students are able to get in their first or second choices of seminars. Also, the class enrollments are pretty balanced. 
+\par\qquad According to the results of the Exact Algorithm and the Approximation Algorithm, both are able to provide us with quite satisfying assignments. More than 90\% of the students are able to get in their first or second choices of seminars. In addition, the class enrollments are balanced. 
 
-However, both algorithms have their own pros and cons. The Approximation Algorithm has a faster and scalable performance compared to the Exact Algorithm because it uses randomization instead of calculating the best result. Therefore, when the dataset gets really large, it’s better to choose the Approximation Algorithm. However, the relative performance of the Approximation Algorithm cannot be guaranteed compared to the Exact Algorithm, and it is absolutely not as good as the Exact Algorithm which always gives the minimum cost. Therefore, when the dataset is not huge and the time of using the Exact Algorithm is realistic, the Exact Algorithm should be a better choice as it provides us with the best solution.
+\par\qquad However, both algorithms have their own pros and cons. The Approximation Algorithm has a faster and scalable performance compared to the Exact Algorithm because it uses randomization instead of calculating the best result. Therefore, when the dataset becomes very large, it is better to choose the Approximation Algorithm. However, the relative performance of the Approximation Algorithm cannot be guaranteed compared to the Exact Algorithm, and it is absolutely not as good as the Exact Algorithm which always gives the minimum total cost. Therefore, when the dataset is not huge and the runtime from using the Exact Algorithm is realistic, the Exact Algorithm should be a better choice as it provides us with the best solution.
 
 \subsection{Limitations}
-    \par\qquad Despite the satisfactory performance of the exact algorithm, its run-time complexity $\mathcal{O}(n^3)$ makes the algorithm undesirable for $n>1000$. Therefore, further work should be focused on more effective heuristics for the approximation algorithm in order to improve the quality of result under a reasonable time constraint. 
+    \par\qquad As mentioned above, despite the satisfactory performance of the exact algorithm, its run-time complexity $\mathcal{O}(n^3)$ makes the algorithm undesirable for $n>1000$. Therefore, further work should be focused on more effective heuristics for the approximation algorithm in order to improve the quality of result under a reasonable time constraint.
 
 \section{Further Work \& Enhancements}
 
 \subsection{Allowing flexible input parameters}
-    \par\qquad For our implementation, the main test case is for seminars with the same enrollment quota, and that each student makes one ``first-choice'' and three ``second-choices''. However, our implementation of algorithm in \emph{Sections 4-5} also supports seminars with various quotas and also students that rank arbitrary number of seminars in arbitrary number of tiers. This makes our implementation applicable to much more real-world cases because in general the course sizes need not be the same, and that student should be given the opportunity to make flexible selections.
+    \par\qquad For our implementation, the main test case is for seminars with the same enrollment quota, and that each student makes one ``first-choice'' and three ``second-choices''. However, our implementation of the algorithms in \emph{Sections 4-5} also supports seminars with various quotas and also students that rank arbitrary number of seminars in arbitrary number of tiers. This makes our implementation applicable to much more real-world cases because in general the course sizes need not be the same, and students should be given the opportunity to make flexible selections.
 
 \subsection{Supporting bi-directional preference/cost parameters with Stable Marriage Algorithm}
-   \par\qquad One of the features we could implement in the future might be that the final assignment does not only depends on the students' rankings on seminars but also the seminars' rankings on students. For example if a certain seminar is very major-orientated and prefers history major students mostly, then we will want to enhance our algorithm by accommodating for the bi-directional preferences. Algorithms like the Stable Marriage Algorithm would be useful to base on, or we may simply use the sum of cost in both students' and seminars' perspectives as parameters in the algorithms specified in \emph{Sections 4-5}.
+   \par\qquad One of the features we could implement in the future might be that the final assignment does not only depends on the students' rankings on seminars but also the seminars' rankings of students. For example, if a certain seminar is very major-oriented and prefers history major students, then we will want to enhance our algorithm by accommodating for these bi-directional preferences. Algorithms like the Stable Marriage Algorithm would be useful to reference, or we may simply use the sum of cost in both students' and seminars' perspectives as parameters in the algorithms specified in \emph{Sections 4-5}.
    
 \subsection{Stable Assignment Optimization}
     \par\qquad Similar to the principle of \emph{Stable Marriage Problem}, in the final seminar assignment we do not want to have two students \emph{A} and \emph{B}, such that \emph{A} prefers \emph{B}'s section, and also vice versa (we call those two students \emph{rogue pair}). This can be done by scanning each pair of students and fixing every \emph{rogue pair}. The algorithm is outlined as follows:
@@ -219,7 +230,7 @@ However, both algorithms have their own pros and cons. The Approximation Algorit
 
 \vskip .3in
 \section*{Acknowledgements}
-\par\qquad The authors would like to thank Professor Alan Frieze for proposing the Hungarian algorithm in \emph{Section 5} and for holding weekly meetings to track our progress. Also, we thank Professor Brian W. Junker, Professor Joseph E. Devine, and Gloria P. Hill for providing us with the real seminar assignment data for Year 2013. And, the thank goes to Brian Clapper for his Python implementation of Hungarian algorithm, and to Eric Wood, who implemented the excel-to-\LaTeX\ utility.
+\par\qquad The authors would like to thank Professor Alan Frieze for proposing the Hungarian algorithm in \emph{Section 5} and for holding weekly meetings to track our progress. Also, we thank Professor Brian W. Junker, Professor Joseph E. Devine, and Gloria P. Hill for providing us with the real seminar assignment data for Year 2013. Finally, the thanks goes to Brian Clapper for his Python implementation of Hungarian algorithm, and to Eric Wood, who implemented the excel-to-\LaTeX\ utility.
 
 \urlstyle{rm}
 \vskip .2in
@@ -235,10 +246,10 @@ Martello, Silvano, and Paolo Toth. Knapsack Problems: Algorithms and Computer Im
 
 \subsection*{Appendix A: Raw Data And Results for Seminar Assignment Problem}
 %\captionof{table}{Fall 2014 Dietrich College Freshman Seminar interests and Freshman Seminar assigned}
-\hoffset=-.6in
+\hoffset=-.8in
 \begin{longtable}{| l | l | l | l | l |}
 \hline
-        {\bf Student ID:} & \begin{tabular}{@{}c@{}}{\bf Student Selection:}\\ {\small Identify 1st choice and 3 2nd choices}\\(ex., 7:  11, 15, 2)\end{tabular}& \begin{tabular}{@{}c@{}}{\bf Assigned by Hand:}\\ {\footnotesize Notes: if blank none assigned}\end{tabular} & \begin{tabular}{@{}c@{}}{\bf Assigned by}\\{\bf exact algorithm:}\end{tabular} & \begin{tabular}{@{}c@{}}{\bf Assigned by}\\{\bf approx algorithm:}\end{tabular} \\ \hline
+        {\bf Student ID:} & \begin{tabular}{@{}c@{}}{\bf Student Selection:}\\ {\small Identify 1st choice and 3 2nd choices}\\(ex., 7:  11, 15, 2)\end{tabular}& \begin{tabular}{@{}c@{}}{\bf Assigned by Hand:}\\ {\footnotesize Notes: if blank, none assigned}\end{tabular} & \begin{tabular}{@{}c@{}}{\bf Assigned by}\\{\bf Exact Algorithm:}\end{tabular} & \begin{tabular}{@{}c@{}}{\bf Assigned by}\\{\bf Approx Algorithm:}\end{tabular} \\ \hline
         1 & 8: 14, 20, 3 &  & 3 & 3 \\ \hline
         2 & 14: 20, 12, 2 &  & 14 & 14 \\ \hline
         3 & 17: 13, 2 &  & 17 & 17 \\ \hline
